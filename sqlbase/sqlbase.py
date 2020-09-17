@@ -3,6 +3,9 @@
 # @Author  : MA Ziqing
 # @FileName: sqlbase.py.py
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 
 def create_engine():
     pass
@@ -10,9 +13,15 @@ def create_engine():
 
 class DataBaseClient(object):
     def __init__(self):
-        pass
+        self._data_base_url = 'sqlite:///orm_in_detail.sqlite'
+        self._engine = create_engine(self._data_base_url)
+
 
     def get_input_data(self):
+        session = sessionmaker()
+        session.configure(bind=self._engine)
+        s = session()
+
         pass
 
     def get_serving_input_data(self):
