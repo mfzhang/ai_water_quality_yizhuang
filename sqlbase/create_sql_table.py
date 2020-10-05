@@ -7,7 +7,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
-from sqlbase.sql_table_base import QualityIndicator, INDICATOR_LIST
+from sqlbase.sql_table_base import (QualityIndicator, QualityInjector, ALL_LIST)
 from sqlalchemy.orm import sessionmaker
 
 # engine = create_engine('sqlite:///:memory:', echo=True)
@@ -25,7 +25,7 @@ class DbRandomCreator(object):
         time_end = time_start + 15 * 60 * 100
         time_interval = 15 * 60
         time_tuple = (time_start, time_end, time_interval)
-        for table in INDICATOR_LIST:
+        for table in ALL_LIST:
             self.create_one_table_randomly(table, time_tuple)
 
     def create_one_table_randomly(self, table, time_tuple):

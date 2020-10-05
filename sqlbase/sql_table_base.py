@@ -23,8 +23,33 @@ class QualityIndicator(Base):
         )
 
 
+class QualityInjector(Base):
+    __tablename__ = 'quality_injector_1'
+    timestamp = Column(Integer, primary_key=True)
+    value1 = Column(Integer)
+    value2 = Column(Integer)
+    status = Column(String)
+
+    def __repr__(self):
+        return "<QualityIndicator(timestamp={}, value1={}, value2={}, status={})>".format(
+            self.timestamp,
+            self.value1,
+            self.value2,
+            self.status
+        )
+
+
 INDICATOR_LIST = [
     QualityIndicator
+]
+
+INJECTOR_LIST = [
+    QualityInjector
+]
+
+ALL_LIST = [
+    QualityIndicator,
+    QualityInjector
 ]
 
 
