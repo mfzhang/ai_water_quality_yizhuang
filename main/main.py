@@ -3,15 +3,20 @@
 # @Author  : MA Ziqing
 # @FileName: main.py
 
+from datetime import datetime
+import schedule
+import time
 
-def run():
 
-    sqlbase.read_input_data()
-
-    server.serve(model)
-
-    optimizer.optimize()
+def job():
+    print('Job4:每天下午17:49执行一次，每次执行20秒')
+    print('Job4-startTime:%s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    time.sleep(20)
+    print('Job4-endTime:%s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print('------------------------------------------------------------------------')
 
 
 if __name__ == '__main__':
-    run()
+    schedule.every().day.at('17:49').do.job(job)
+    while True:
+        schedule.run_pending()

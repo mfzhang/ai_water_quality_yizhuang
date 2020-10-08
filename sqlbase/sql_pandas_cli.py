@@ -1,5 +1,7 @@
 import os
 import sys
+import logging
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlbase.sql_table_base import QualityIndicator, ALL_LIST
@@ -14,6 +16,7 @@ class DataBasePandasClient(object):
         self._engine = create_engine(self._db_path, echo=False)
 
     def get_quality_indicator_data(self, table_name):
+        logging.info('get quality')
         sql = 'select * from {}'.format(table_name)
         df = pd.read_sql(sql, self._engine)
         return df

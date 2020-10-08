@@ -3,11 +3,15 @@
 # @Author  : MA Ziqing
 # @FileName: server.py.py
 import os
+import logging
 from datetime import datetime
 from sqlbase.sql_pandas_cli import DataBasePandasClient
 from sqlbase.sql_table_base import INDICATOR_LIST, INJECTOR_LIST
 from src.pre_treat_pandas import PreTreatPandas
 from optimizer.pid_optimizer import PidOptimizer
+
+logging.basicConfig(filename='server.log', level=logging.DEBUG)
+
 
 class Server(object):
     def __init__(self):
@@ -49,6 +53,7 @@ class Server(object):
 
 
 def test():
+    logging.info('[{}] Server start'.format(datetime.now()))
     server = Server()
     server.run()
 
