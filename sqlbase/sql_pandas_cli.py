@@ -1,7 +1,6 @@
 import os
 import sys
 import logging
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlbase.sql_table_base import QualityIndicator, ALL_LIST

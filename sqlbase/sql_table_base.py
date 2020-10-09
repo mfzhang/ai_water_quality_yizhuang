@@ -39,6 +39,17 @@ class QualityInjector(Base):
         )
 
 
+class OutputDB(Base):
+    __tablename__ = 'output_database'
+    timestamp = Column(Integer, primary_key=True)
+    device = Column(String)
+    status = Column(String)
+    instruction = Column(String)
+
+    def __repr__(self):
+        pass
+
+
 INDICATOR_LIST = [
     QualityIndicator
 ]

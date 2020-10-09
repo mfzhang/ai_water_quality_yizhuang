@@ -10,7 +10,7 @@ from sqlbase.sql_table_base import INDICATOR_LIST, INJECTOR_LIST
 from src.pre_treat_pandas import PreTreatPandas
 from optimizer.pid_optimizer import PidOptimizer
 
-logging.basicConfig(filename='server.log', level=logging.DEBUG)
+# logging.basicConfig(filename='server.log', level=logging.DEBUG)
 
 
 class Server(object):

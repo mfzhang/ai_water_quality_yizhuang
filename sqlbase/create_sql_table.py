@@ -11,7 +11,7 @@ from sqlalchemy import Column, Integer, String
 from sqlbase.sql_table_base import (QualityIndicator, QualityInjector, ALL_LIST)
 from sqlalchemy.orm import sessionmaker
 
-# engine = create_engine('sqlite:///:memory:', echo=True)
+# engine = create_engine('sqlite:///:memory:', echo=False)
 # Base = declarative_base()
 
 
@@ -19,7 +19,7 @@ class DbRandomCreator(object):
     def __init__(self):
         self._db_name = 'foo.db'
         self._db_path = 'sqlite:///' + os.path.split(os.path.realpath(__file__))[0] + '\\' + self._db_name
-        self._engine = create_engine(self._db_path, echo=True)
+        self._engine = create_engine(self._db_path, echo=False)
 
     def create_all_table_randomly(self, time_interval_second=900, time_range=100):
         time_end = int(datetime.now().timestamp())

@@ -1,6 +1,5 @@
-INFO:root:
-[2020-10-09 11:40:41.407612] main start
-INFO:root:[2020-10-09 11:40:41.418583] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:root:[2020-10-09 16:06:14.797029] main start, run simulation
+INFO:root:[2020-10-09 16:06:14.815012] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
 INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
@@ -9,17 +8,250 @@ INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:root:[2020-10-09 11:40:41.423570] create one table: quality_indicator_1 randomly
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA temp.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:
+CREATE TABLE output_database (
+	timestamp INTEGER NOT NULL, 
+	device VARCHAR, 
+	status VARCHAR, 
+	config VARCHAR, 
+	PRIMARY KEY (timestamp)
+)
+
+
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:root:[2020-10-09 16:06:14.822959] create one table: quality_indicator_1 randomly
 INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
 INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_indicator_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
-INFO:sqlalchemy.engine.base.Engine:((1602124841, 64, 40, 'ok'), (1602125741, 39, 7, 'ok'), (1602126641, 41, 52, 'ok'), (1602127541, 97, 48, 'ok'), (1602128441, 60, 77, 'ok'), (1602129341, 32, 67, 'ok'), (1602130241, 31, 42, 'ok'), (1602131141, 70, 52, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602213041, 56, 98, 'ok'), (1602213941, 62, 48, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:((1602140774, 53, 20, 'ok'), (1602141674, 7, 34, 'ok'), (1602142574, 20, 79, 'ok'), (1602143474, 39, 70, 'ok'), (1602144374, 0, 85, 'ok'), (1602145274, 15, 61, 'ok'), (1602146174, 17, 65, 'ok'), (1602147074, 64, 26, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602228974, 43, 21, 'ok'), (1602229874, 9, 26, 'ok'))
 INFO:sqlalchemy.engine.base.Engine:COMMIT
 INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
 INFO:sqlalchemy.engine.base.Engine:()
 INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
 INFO:sqlalchemy.engine.base.Engine:()
-INFO:root:[2020-10-09 11:40:41.451904] create one table: quality_injector_1 randomly
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:root:[2020-10-09 16:06:14.834954] create one table: quality_injector_1 randomly
 INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
 INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_injector_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
-INFO:sqlalchemy.engine.base.Engine:((1602124841, 17, 38, 'ok'), (1602125741, 36, 8, 'ok'), (1602126641, 62, 6, 'ok'), (1602127541, 76, 6, 'ok'), (1602128441, 86, 95, 'ok'), (1602129341, 23, 2, 'ok'), (1602130241, 21, 8, 'ok'), (1602131141, 58, 59, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602213041, 43, 9, 'ok'), (1602213941, 2, 92, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:((1602140774, 68, 24, 'ok'), (1602141674, 12, 21, 'ok'), (1602142574, 86, 23, 'ok'), (1602143474, 94, 59, 'ok'), (1602144374, 96, 30, 'ok'), (1602145274, 16, 74, 'ok'), (1602146174, 10, 86, 'ok'), (1602147074, 34, 59, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602228974, 34, 20, 'ok'), (1602229874, 26, 67, 'ok'))
 INFO:sqlalchemy.engine.base.Engine:COMMIT
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:07:15.137494] main start, run simulation
+INFO:root:[2020-10-09 16:07:15.144476] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:root:[2020-10-09 16:07:15.147471] create one table: quality_indicator_1 randomly
+INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_indicator_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
+INFO:sqlalchemy.engine.base.Engine:((1602140835, 49, 92, 'ok'), (1602141735, 64, 22, 'ok'), (1602142635, 98, 99, 'ok'), (1602143535, 24, 82, 'ok'), (1602144435, 51, 9, 'ok'), (1602145335, 56, 3, 'ok'), (1602146235, 99, 0, 'ok'), (1602147135, 43, 89, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602229035, 19, 78, 'ok'), (1602229935, 33, 72, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:ROLLBACK
+INFO:root:[2020-10-09 16:07:56.373239] main start, run simulation
+INFO:root:[2020-10-09 16:07:56.380221] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA temp.table_info("quality_indicator_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA temp.table_info("quality_injector_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA temp.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:
+CREATE TABLE quality_indicator_1 (
+	timestamp INTEGER NOT NULL, 
+	value1 INTEGER, 
+	value2 INTEGER, 
+	status VARCHAR, 
+	PRIMARY KEY (timestamp)
+)
+
+
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:
+CREATE TABLE quality_injector_1 (
+	timestamp INTEGER NOT NULL, 
+	value1 INTEGER, 
+	value2 INTEGER, 
+	status VARCHAR, 
+	PRIMARY KEY (timestamp)
+)
+
+
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:
+CREATE TABLE output_database (
+	timestamp INTEGER NOT NULL, 
+	device VARCHAR, 
+	status VARCHAR, 
+	config VARCHAR, 
+	PRIMARY KEY (timestamp)
+)
+
+
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:root:[2020-10-09 16:07:56.397137] create one table: quality_indicator_1 randomly
+INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_indicator_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
+INFO:sqlalchemy.engine.base.Engine:((1602140876, 95, 53, 'ok'), (1602141776, 53, 31, 'ok'), (1602142676, 38, 48, 'ok'), (1602143576, 71, 15, 'ok'), (1602144476, 39, 57, 'ok'), (1602145376, 10, 54, 'ok'), (1602146276, 57, 34, 'ok'), (1602147176, 86, 39, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602229076, 93, 49, 'ok'), (1602229976, 8, 96, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:root:[2020-10-09 16:07:56.407146] create one table: quality_injector_1 randomly
+INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_injector_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
+INFO:sqlalchemy.engine.base.Engine:((1602140876, 84, 36, 'ok'), (1602141776, 95, 13, 'ok'), (1602142676, 89, 59, 'ok'), (1602143576, 5, 61, 'ok'), (1602144476, 77, 6, 'ok'), (1602145376, 12, 15, 'ok'), (1602146276, 95, 51, 'ok'), (1602147176, 43, 67, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602229076, 27, 96, 'ok'), (1602229976, 52, 90, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:09:13.620010] main start, run simulation
+INFO:root:[2020-10-09 16:09:13.625994] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:root:[2020-10-09 16:09:13.628986] create one table: quality_indicator_1 randomly
+INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_indicator_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
+INFO:sqlalchemy.engine.base.Engine:((1602140953, 43, 54, 'ok'), (1602141853, 29, 86, 'ok'), (1602142753, 90, 41, 'ok'), (1602143653, 93, 16, 'ok'), (1602144553, 29, 93, 'ok'), (1602145453, 39, 16, 'ok'), (1602146353, 91, 26, 'ok'), (1602147253, 21, 1, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602229153, 95, 66, 'ok'), (1602230053, 78, 84, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_indicator_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("quality_injector_1")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:sqlalchemy.engine.base.Engine:PRAGMA main.table_info("output_database")
+INFO:sqlalchemy.engine.base.Engine:()
+INFO:root:[2020-10-09 16:09:13.643983] create one table: quality_injector_1 randomly
+INFO:sqlalchemy.engine.base.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.base.Engine:INSERT INTO quality_injector_1 (timestamp, value1, value2, status) VALUES (?, ?, ?, ?)
+INFO:sqlalchemy.engine.base.Engine:((1602140953, 45, 14, 'ok'), (1602141853, 85, 60, 'ok'), (1602142753, 3, 55, 'ok'), (1602143653, 10, 13, 'ok'), (1602144553, 98, 82, 'ok'), (1602145453, 76, 30, 'ok'), (1602146353, 63, 18, 'ok'), (1602147253, 95, 39, 'ok')  ... displaying 10 of 100 total bound parameter sets ...  (1602229153, 76, 84, 'ok'), (1602230053, 43, 28, 'ok'))
+INFO:sqlalchemy.engine.base.Engine:COMMIT
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: [never], next run: 2020-10-09 16:09:18)
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:09:18.655153] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-09 16:09:18, next run: 2020-10-09 16:09:23)
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:09:23.709202] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-09 16:09:23, next run: 2020-10-09 16:09:28)
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:09:28.749274] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-09 16:09:28, next run: 2020-10-09 16:09:33)
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:09:33.788842] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-09 16:09:33, next run: 2020-10-09 16:09:38)
+ERROR:root:Trying to access flag server_time_interval before flags were parsed.
+Traceback (most recent call last):
+  File "C:\Users\Admin\anaconda3\envs\mzqenv\lib\site-packages\gflags\flagvalues.py", line 535, in __getattr__
+    raise exceptions.UnparsedFlagAccessError(error_message)
+gflags.exceptions.UnparsedFlagAccessError: Trying to access flag server_time_interval before flags were parsed.
+INFO:root:[2020-10-09 16:09:38.831577] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality

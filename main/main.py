@@ -3,15 +3,17 @@
 # @Author  : MA Ziqing
 # @FileName: main.py
 
-import schedule
+import sys
 import time
 import gflags
 import logging
+import schedule
 from datetime import datetime
 from sqlbase.create_sql_table import DbRandomCreator
+from server.server import Server
 
 flags = gflags.FLAGS
-gflags.DEFINE_integer('time', 15, 'time')
+gflags.DEFINE_integer('server_time_interval', 5, 'time interval of server run, default=?s')
 
 logging.basicConfig(filename='main.log', level=logging.DEBUG)
 
@@ -23,18 +25,38 @@ def create_simulated_dataset():
         time_range=100)
 
 
-def job():
+def server_run():
+    logging.info('[{}] server run, every {} seconds'.format(
+        datetime.now(), flags.server_time_interval))
+    server = Server()
+    server.run()
+
+
+def trainer_run():
+    pass
+
+
+def job_example():
     print('Job4:每天下午17:49执行一次，每次执行20秒')
-    print('Job4-startTime:%s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print('Job4-startTime:%s' % (datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     time.sleep(20)
-    print('Job4-endTime:%s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    print('Job4-endTime:%s' % (datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     print('------------------------------------------------------------------------')
     print(flags.time)
 
 
-if __name__ == '__main__':
-    logging.info('[{}] main start'.format(datetime.now()))
+def run_simulation(argv):
+    flags(argv)
+    logging.info('[{}] main start, run simulation'.format(datetime.now()))
     create_simulated_dataset()
-    # schedule.every().day.at('17:49').do.job(job)
+    schedule.every(flags.server_time_interval).seconds.do(server_run)
+    schedule.every().day.at('01:00').do(trainer_run)
+    while True:
+        schedule.run_pending()
+
+
+if __name__ == '__main__':
+    run_simulation(sys.argv)
+    # schedule.every().day.at('17:49').do(job_example)
     # while True:
     #     schedule.run_pending()
