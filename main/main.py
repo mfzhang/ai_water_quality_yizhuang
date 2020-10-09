@@ -3,9 +3,24 @@
 # @Author  : MA Ziqing
 # @FileName: main.py
 
-from datetime import datetime
 import schedule
 import time
+import gflags
+import logging
+from datetime import datetime
+from sqlbase.create_sql_table import DbRandomCreator
+
+flags = gflags.FLAGS
+gflags.DEFINE_integer('time', 15, 'time')
+
+logging.basicConfig(filename='main.log', level=logging.DEBUG)
+
+
+def create_simulated_dataset():
+    db_random_creator = DbRandomCreator()
+    db_random_creator.create_all_table_randomly(
+        time_interval_second=900,
+        time_range=100)
 
 
 def job():
@@ -14,9 +29,12 @@ def job():
     time.sleep(20)
     print('Job4-endTime:%s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     print('------------------------------------------------------------------------')
+    print(flags.time)
 
 
 if __name__ == '__main__':
-    schedule.every().day.at('17:49').do.job(job)
-    while True:
-        schedule.run_pending()
+    logging.info('[{}] main start'.format(datetime.now()))
+    create_simulated_dataset()
+    # schedule.every().day.at('17:49').do.job(job)
+    # while True:
+    #     schedule.run_pending()
