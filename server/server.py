@@ -38,18 +38,18 @@ class Server(object):
         return output_instruct
 
     def run(self):
-        counter_max = 5
-        counter = 0
-        while True:
-            counter += 1
-            if counter > counter_max:
-                break
-            df_inp = self.get_input_data()
-            df_inp = self.pre_treat_input_data(df_inp)
-            df_out_pred = self.treat_with_ml_model(df_inp)
-            df_out = self.get_label_data()
-            output_instruct = self.optimize_config(df_out, df_out_pred)
-            print('【{}】, {}'.format(datetime.now(), output_instruct))
+        # counter_max = 5
+        # counter = 0
+        # while True:
+        #     counter += 1
+        #     if counter > counter_max:
+        #         break
+        df_inp = self.get_input_data()
+        df_inp = self.pre_treat_input_data(df_inp)
+        df_out_pred = self.treat_with_ml_model(df_inp)
+        df_out = self.get_label_data()
+        output_instruct = self.optimize_config(df_out, df_out_pred)
+        print('【{}】, {}'.format(datetime.now(), output_instruct))
 
 
 def test():

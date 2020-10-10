@@ -6,3 +6,9 @@
 
 class Columns(object):
     pump1 = 'PUMP1'
+
+
+class WaterQualityStandard(object):
+    TRANSPARENCY = 1  # 透明度
+    CONDUCTIVITY = 1  # 电导率
+    TURBIDITY = 1  # 浊度

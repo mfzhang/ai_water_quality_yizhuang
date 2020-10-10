@@ -255,3 +255,63 @@ INFO:root:get quality
 INFO:root:get quality
 INFO:root:get quality
 INFO:root:get quality
+INFO:root:[2020-10-10 09:34:25.594998] main start, run simulation
+INFO:root:[2020-10-10 09:34:25.658827] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:root:[2020-10-10 09:34:25.696048] create one table: quality_indicator_1 randomly
+INFO:root:[2020-10-10 09:34:25.722687] create one table: quality_injector_1 randomly
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: [never], next run: 2020-10-10 09:34:30)
+INFO:root:[2020-10-10 09:34:30.738487] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:[2020-10-10 09:35:10.329344] main start, run simulation
+INFO:root:[2020-10-10 09:35:10.340315] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:root:[2020-10-10 09:35:10.344304] create one table: quality_indicator_1 randomly
+INFO:root:[2020-10-10 09:35:10.367475] create one table: quality_injector_1 randomly
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: [never], next run: 2020-10-10 09:35:15)
+INFO:root:[2020-10-10 09:35:15.386420] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-10 09:35:15, next run: 2020-10-10 09:35:20)
+INFO:root:[2020-10-10 09:35:20.456226] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-10 09:35:20, next run: 2020-10-10 09:35:25)
+INFO:root:[2020-10-10 09:35:25.529699] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-10 09:35:25, next run: 2020-10-10 09:35:30)
+INFO:root:[2020-10-10 09:35:30.598298] server run, every 5 seconds
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality
+INFO:root:get quality

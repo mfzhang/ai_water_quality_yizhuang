@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from sqlbase.sql_cli import DataBaseSqlClient
 
 
@@ -7,7 +8,7 @@ class PidOptimizer(object):
         pass
 
     @staticmethod
-    def optimize_config_with_pid(self, df_out, df_out_pred):
+    def optimize_config_with_pid(df_out, df_out_pred):
         standard = 80
         if df_out['value1'].mean() > standard:
             return 'reduce injector'
@@ -16,10 +17,11 @@ class PidOptimizer(object):
 
     @staticmethod
     def write_result(self, rows):
+        logging.info('[{}] write result 【{}】 into OutputDB'.format(
+            datetime.now(), rows
+        ))
         db_sql_cli = DataBaseSqlClient()
         db_sql_cli.write_rows_into_output_table(rows)
-
-
 
 
 def test():
