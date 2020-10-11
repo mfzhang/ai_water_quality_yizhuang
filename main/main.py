@@ -26,10 +26,17 @@ def create_simulated_dataset():
 
 
 def server_run():
+    print('new turn server run')
     logging.info('[{}] server run, every {} seconds'.format(
         datetime.now(), flags.server_time_interval))
     server = Server()
-    server.run()
+    server.run_simulation()
+
+
+def server_ph_run():
+    print('new turn server_ph_run')
+    server = Server()
+    server.ph_optimizer_run()
 
 
 def trainer_run():
@@ -55,8 +62,14 @@ def run_simulation(argv):
         schedule.run_pending()
 
 
+def run_real(argv):
+    flags(argv)
+    schedule.every(flags.server_time_interval).seconds.do(server_ph_run)
+    while True:
+        schedule.run_pending()
+
+
 if __name__ == '__main__':
     run_simulation(sys.argv)
-    # schedule.every().day.at('17:49').do(job_example)
-    # while True:
-    #     schedule.run_pending()
+    run_real(sys.argv)
+

@@ -12,3 +12,9 @@ class WaterQualityStandard(object):
     TRANSPARENCY = 1  # 透明度
     CONDUCTIVITY = 1  # 电导率
     TURBIDITY = 1  # 浊度
+
+
+class PhStandard(object):
+    STANDARD = 6.5
+    MAXLIMIT = 6.6
+    MINLIMIT = 6.4

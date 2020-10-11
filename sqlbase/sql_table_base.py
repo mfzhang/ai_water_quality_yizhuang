@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Integer, Column, String
+from sqlalchemy import Integer, Column, String, JSON
 from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
@@ -45,6 +45,30 @@ class OutputDB(Base):
     device = Column(String)
     status = Column(String)
     instruction = Column(String)
+
+    def __repr__(self):
+        pass
+
+
+class Result1(Base):
+    __tablename__ = 'result1'
+    id = Column(Integer, primary_key=True)
+    # timestamp = Column(Integer, primary_key=True)
+    json = Column(JSON)
+    state = Column(Integer)
+    type = Column(Integer)
+
+    def __repr__(self):
+        pass
+
+
+class Result2(Base):
+    __tablename__ = 'result2'
+    resultId = Column(Integer, primary_key=True)
+    # timestamp = Column(Integer, primary_key=True)
+    json = Column(JSON)
+    state = Column(Integer)
+    type = Column(Integer)
 
     def __repr__(self):
         pass

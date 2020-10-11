@@ -7,7 +7,7 @@ import os
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlbase.sql_table_base import QualityIndicator, OutputDB
+from sqlbase.sql_table_base import QualityIndicator, OutputDB, Result1, Result2
 
 
 class DataBaseSqlClient(object):
@@ -34,6 +34,26 @@ class DataBaseSqlClient(object):
                            instruction=row['instruction'])
             res_list += [res]
         session.add_all(res_list)
+        session.commit()
+
+    def write_one_row_into_output_result1(self, row):
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        res = Result1(id=row['id'],
+                      json=row['json'],
+                      state=row['state'],
+                      type=row['type'])
+        session.add_all(res)
+        session.commit()
+
+    def write_one_row_into_output_result2(self, row):
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        res = Result2(resultId=row['id'],
+                      json=row['json'],
+                      state=row['state'],
+                      type=row['type'])
+        session.add_all(res)
         session.commit()
 
 
