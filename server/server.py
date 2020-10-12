@@ -39,12 +39,6 @@ class Server(object):
         return output_instruct
 
     def run_simulation(self):
-        # counter_max = 5
-        # counter = 0
-        # while True:
-        #     counter += 1
-        #     if counter > counter_max:
-        #         break
         df_inp = self.get_input_data()
         df_inp = self.pre_treat_input_data(df_inp)
         df_out_pred = self.treat_with_ml_model(df_inp)
@@ -59,18 +53,20 @@ class Server(object):
         result = self._pid_optimizer.optimize_ph_with_pid(df_ph)
         return result
 
-    def xxx_optimizer_run(self):
-        return None
+    def qmf_optimizer_run(self):
+        # quantity_micro_filter 微滤进水流量优化模块：使进水与出水相当
+        df = 1
+        return df
 
     def run_real(self):
         result_list = []
 
         json_res_ph = self.ph_optimizer_run()
-        if json_res_ph is not None:
+        if json_res_ph:
             result_list += [json_res_ph]
 
-        json_res_xxx = self.xxx_optimizer_run()
-        if json_res_xxx is not None:
+        json_res_xxx = self.qmf_optimizer_run()
+        if json_res_xxx:
             result_list += [json_res_xxx]
 
         self.write_result(result_list)

@@ -53,7 +53,6 @@ class OutputDB(Base):
 class Result1(Base):
     __tablename__ = 'result1'
     id = Column(Integer, primary_key=True)
-    # timestamp = Column(Integer, primary_key=True)
     json = Column(JSON)
     state = Column(Integer)
     type = Column(Integer)
@@ -65,7 +64,6 @@ class Result1(Base):
 class Result2(Base):
     __tablename__ = 'result2'
     resultId = Column(Integer, primary_key=True)
-    # timestamp = Column(Integer, primary_key=True)
     json = Column(JSON)
     state = Column(Integer)
     type = Column(Integer)
