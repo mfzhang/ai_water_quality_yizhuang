@@ -42,6 +42,15 @@ class PidOptimizer(object):
             }
         return result
 
+    def optimizer_mf_by_outflow_with_pid(self, df_outflow):
+        result = {
+            'device': 'JYDY1',
+            'parameter': '酸泵',
+            'originalValue': 0,
+            'newValue': 0
+        }
+        return result
+
 
 def test():
     pass

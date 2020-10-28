@@ -14,6 +14,14 @@ class DataBaseSqlClient(object):
     def __init__(self):
         self._db_name = 'foo.db'
         self._db_path = 'sqlite:///' + os.path.split(os.path.realpath(__file__))[0] + '\\' + self._db_name
+        # create_engine("数据库类型+数据库驱动://数据库用户名:数据库密码@IP地址:端口/数据库"，其他参数)
+        # 166.111.42.142 sa abc123 YZSC
+        username = 'sa'
+        dbname = 'YZSC'
+        host = '166.111.42.142'
+        password = 'abc123'
+        # mysql + pymysql: // < username >: < password > @ < host > / < dbname > charset = utf8
+        self._db_path_2 = 'mysql+pymysql://{}:{}@{}/{}'.format(username, password, host, dbname)
         self._engine = create_engine(self._db_path, echo=False)
 
     def get_quality_indicator_data(self):

@@ -22,3 +22,82 @@ INFO:root:[2020-10-10 09:49:09.003376] server run, every 5 seconds
 INFO:root:get quality
 INFO:root:get quality
 INFO:root:[2020-10-10 09:49:09.018838], augment injector
+INFO:root:[2020-10-28 14:35:07.437907] main start, run simulation
+INFO:root:[2020-10-28 14:35:07.541262] create tables: ['quality_indicator_1', 'quality_injector_1'], with time interval of 900 second and dataset length of 100
+INFO:root:[2020-10-28 14:35:07.595953] create one table: quality_indicator_1 randomly
+INFO:root:[2020-10-28 14:35:07.640333] create one table: quality_injector_1 randomly
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: [never], next run: 2020-10-28 14:35:12)
+INFO:root:[2020-10-28 14:35:12.677066] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:12.678114] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:12.721606] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:12.736609], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:12, next run: 2020-10-28 14:35:17)
+INFO:root:[2020-10-28 14:35:17.738403] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:17.739401] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:17.758167] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:17.769382], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:17, next run: 2020-10-28 14:35:22)
+INFO:root:[2020-10-28 14:35:22.772495] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:22.772495] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:22.795066] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:22.805561], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:22, next run: 2020-10-28 14:35:27)
+INFO:root:[2020-10-28 14:35:27.806446] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:27.806446] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:27.826147] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:27.836458], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:27, next run: 2020-10-28 14:35:32)
+INFO:root:[2020-10-28 14:35:32.837222] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:32.838258] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:32.858201] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:32.868495], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:32, next run: 2020-10-28 14:35:37)
+INFO:root:[2020-10-28 14:35:37.869794] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:37.870786] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:37.888183] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:37.898570], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:37, next run: 2020-10-28 14:35:42)
+INFO:root:[2020-10-28 14:35:42.898629] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:42.898629] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:42.921831] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:42.932193], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:42, next run: 2020-10-28 14:35:47)
+INFO:root:[2020-10-28 14:35:47.933008] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:47.933008] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:47.954208] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:47.963702], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:47, next run: 2020-10-28 14:35:52)
+INFO:root:[2020-10-28 14:35:52.964418] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:52.964418] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:52.977149] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:52.985093], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:52, next run: 2020-10-28 14:35:57)
+INFO:root:[2020-10-28 14:35:57.989096] server run, every 5 seconds
+INFO:root:[2020-10-28 14:35:57.989096] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:35:58.009245] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:35:58.022730], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:35:58, next run: 2020-10-28 14:36:03)
+INFO:root:[2020-10-28 14:36:03.022862] server run, every 5 seconds
+INFO:root:[2020-10-28 14:36:03.023840] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:36:03.040177] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:36:03.049485], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:36:03, next run: 2020-10-28 14:36:08)
+INFO:root:[2020-10-28 14:36:08.051826] server run, every 5 seconds
+INFO:root:[2020-10-28 14:36:08.051826] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:36:08.073002] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:36:08.080990], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:36:08, next run: 2020-10-28 14:36:13)
+INFO:root:[2020-10-28 14:36:13.082225] server run, every 5 seconds
+INFO:root:[2020-10-28 14:36:13.082225] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:36:13.105418] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:36:13.116002], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:36:13, next run: 2020-10-28 14:36:18)
+INFO:root:[2020-10-28 14:36:18.118733] server run, every 5 seconds
+INFO:root:[2020-10-28 14:36:18.119733] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:36:18.141102] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:36:18.150183], augment injector
+INFO:schedule:Running job Every 5 seconds do server_run() (last run: 2020-10-28 14:36:18, next run: 2020-10-28 14:36:23)
+INFO:root:[2020-10-28 14:36:23.150354] server run, every 5 seconds
+INFO:root:[2020-10-28 14:36:23.150354] get data from "quality_injector_1"
+INFO:root:[2020-10-28 14:36:23.168762] get data from "quality_indicator_1"
+INFO:root:[2020-10-28 14:36:23.181435], augment injector

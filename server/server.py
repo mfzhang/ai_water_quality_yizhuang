@@ -20,56 +20,45 @@ class Server(object):
         self._pre_treat_pandas = PreTreatPandas()
         self._pid_optimizer = PidOptimizer()
 
-    def get_input_data(self):
-        table_name = INJECTOR_LIST[0].__tablename__
-        return self._db_pandas_cli.get_quality_indicator_data(table_name)
-
-    def get_label_data(self):
-        table_name = INDICATOR_LIST[0].__tablename__
-        return self._db_pandas_cli.get_quality_indicator_data(table_name)
-
-    def pre_treat_input_data(self, df):
-        return self._pre_treat_pandas.mask_extreme_value(df)
-
-    def treat_with_ml_model(self, df):
-        return df
-
-    def optimize_config(self, df_out, df_out_pred):
-        output_instruct = self._pid_optimizer.optimize_config_with_pid(df_out, df_out_pred)
-        return output_instruct
-
-    def run_simulation(self):
-        df_inp = self.get_input_data()
-        df_inp = self.pre_treat_input_data(df_inp)
-        df_out_pred = self.treat_with_ml_model(df_inp)
-        df_out = self.get_label_data()
-        output_instruct = self.optimize_config(df_out, df_out_pred)
-        logging.info('[{}], {}'.format(datetime.now(), output_instruct))
+    # def get_input_data(self):
+    #     table_name = INJECTOR_LIST[0].__tablename__
+    #     return self._db_pandas_cli.get_db_data_by_table_name_to_df(table_name)
+    #
+    # def get_label_data(self):
+    #     table_name = INDICATOR_LIST[0].__tablename__
+    #     return self._db_pandas_cli.get_db_data_by_table_name_to_df(table_name)
+    #
+    # def pre_treat_input_data(self, df):
+    #     return self._pre_treat_pandas.mask_extreme_value(df)
+    #
+    # def treat_with_ml_model(self, df):
+    #     return df
+    #
+    # def optimize_config(self, df_out, df_out_pred):
+    #     output_instruct = self._pid_optimizer.optimize_config_with_pid(df_out, df_out_pred)
+    #     return output_instruct
+    #
+    # def run_simulation(self):
+    #     df_inp = self.get_input_data()
+    #     df_inp = self.pre_treat_input_data(df_inp)
+    #     df_out_pred = self.treat_with_ml_model(df_inp)
+    #     df_out = self.get_label_data()
+    #     output_instruct = self.optimize_config(df_out, df_out_pred)
+    #     logging.info('[{}], {}'.format(datetime.now(), output_instruct))
 
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
-        df_ph = self._db_pandas_cli.get_ph_monitor_data()
+        df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
         df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
         result = self._pid_optimizer.optimize_ph_with_pid(df_ph)
         return result
 
     def qmf_optimizer_run(self):
         # quantity_micro_filter 微滤进水流量优化模块：使进水与出水相当
-        df = 1
-        return df
-
-    def run_real(self):
-        result_list = []
-
-        json_res_ph = self.ph_optimizer_run()
-        if json_res_ph:
-            result_list += [json_res_ph]
-
-        json_res_xxx = self.qmf_optimizer_run()
-        if json_res_xxx:
-            result_list += [json_res_xxx]
-
-        self.write_result(result_list)
+        df_outflow = self._db_pandas_cli.get_outflow_quantity_data()
+        df_outflow = self._pre_treat_pandas.mask_extreme_value(df_outflow)
+        result = self._pid_optimizer.optimizer_mf_by_outflow_with_pid(df_outflow)
+        return result
 
     @staticmethod
     def write_result(result_list):
@@ -87,11 +76,24 @@ class Server(object):
         db_sql_cli = DataBaseSqlClient()
         db_sql_cli.write_rows_into_output_table(rows)
 
+    def run_real(self):
+        result_list = []
+
+        json_res_ph = self.ph_optimizer_run()
+        if json_res_ph:
+            result_list += [json_res_ph]
+
+        json_res_xxx = self.qmf_optimizer_run()
+        if json_res_xxx:
+            result_list += [json_res_xxx]
+
+        self.write_result(result_list)
+
 
 def test():
     logging.info('[{}] Server start'.format(datetime.now()))
     server = Server()
-    server.run_simulation()
+    server.run_real()
 
 
 if __name__ == '__main__':
