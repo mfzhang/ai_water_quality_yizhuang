@@ -4,6 +4,12 @@
 # @FileName: constants.py.py
 
 
+import gflags
+flags = gflags.FLAGS
+gflags.DEFINE_integer('server_time_interval', 5, 'time interval of server run, default=?s')
+gflags.DEFINE_integer('version', 0, '0 is normal version and 1 is backup version')
+
+
 class Columns(object):
     pump1 = 'PUMP1'
 

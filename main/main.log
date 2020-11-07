@@ -101,3 +101,24 @@ INFO:root:[2020-10-28 14:36:23.150354] server run, every 5 seconds
 INFO:root:[2020-10-28 14:36:23.150354] get data from "quality_injector_1"
 INFO:root:[2020-10-28 14:36:23.168762] get data from "quality_indicator_1"
 INFO:root:[2020-10-28 14:36:23.181435], augment injector
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:34:23)
+INFO:root:[2020-11-08 00:34:23.120680] sql_pandas_cli: get ph_monitor_data from dataset
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:36:02)
+INFO:root:[2020-11-08 00:36:02.479738] sql_pandas_cli: get ph_monitor_data from dataset
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:38:45)
+INFO:root:[2020-11-08 00:38:45.906201] sql_pandas_cli: get ph_monitor_data from dataset
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:44:14)
+INFO:root:[2020-11-08 00:44:14.491018] sql_pandas_cli: get ph_monitor_data from dataset
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:46:02)
+INFO:root:[2020-11-08 00:46:02.907170] sql_pandas_cli: get ph_monitor_data from dataset
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:46:47)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:46:47, next run: 2020-11-08 00:46:52)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:46:52, next run: 2020-11-08 00:46:57)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:48:32)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:48:32, next run: 2020-11-08 00:48:37)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:48:37, next run: 2020-11-08 00:48:42)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:48:42, next run: 2020-11-08 00:48:47)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: [never], next run: 2020-11-08 00:50:55)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:50:55, next run: 2020-11-08 00:51:00)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:51:00, next run: 2020-11-08 00:51:05)
+INFO:schedule:Running job Every 5 seconds do server_ph_run() (last run: 2020-11-08 00:51:05, next run: 2020-11-08 00:51:10)

@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 from sqlbase.sql_cli import DataBaseSqlClient
 from src.constants import PhStandard
+import random
 
 
 class PidOptimizer(object):
@@ -25,25 +26,28 @@ class PidOptimizer(object):
         db_sql_cli.write_rows_into_output_table(rows)
 
     def optimize_ph_with_pid(self, df_ph, df_pump):
+        new_values = random.randint(1, 4)
+        result_increase = {
+            'device': 'P410A',
+            'parameter': 'unknown',
+            'originalValue': 'unknown',
+            'newValue': '+' + str(new_values/10)
+        }
+        result_reduce = {
+            'device': 'P410A',
+            'parameter': 'unknown',
+            'originalValue': 'unknown',
+            'newValue': '-' + str(new_values / 10)
+        }
         if df_ph:
-            result = {}
             if df_ph.max() > PhStandard.MAXLIMIT:
-                result = {
-                    'device': 'P410A',
-                    'parameter': 'unknown',
-                    'originalValue': 'unknown',
-                    'newValue': '+0.3'
-                }
+                return result_reduce
             elif df_ph.min() < PhStandard.MINLIMIT:
-                result = {
-                    'device': 'P410A',
-                    'parameter': 'unknown',
-                    'originalValue': 'unknown',
-                    'newValue': '+0.3'
-                }
+                return result_increase
+            else:
+                return None
         else:
-            result = {}
-        return result
+            return random.choice([result_increase, result_reduce, None])
 
     def optimizer_mf_by_outflow_with_pid(self, df_outflow):
         result = {

@@ -5,7 +5,7 @@ def read_db_config():
     config_dict = dict()
     # path = os.path.abspath(__file__)
     # print('read_db abspath', path)
-    with open('./config.txt', 'r') as f:
+    with open('../main/config.txt', 'r') as f:
         text = f.read()
         text_list = text.split('\n')
     config_dict['host'] = text_list[0]

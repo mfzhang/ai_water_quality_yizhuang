@@ -10,15 +10,19 @@ from sqlbase.sql_cli import DataBaseSqlClient
 from sqlbase.sql_table_base import INDICATOR_LIST, INJECTOR_LIST
 from src.pre_treat_pandas import PreTreatPandas
 from optimizer.pid_optimizer import PidOptimizer
-
+from src.constants import flags
 # logging.basicConfig(filename='server.log', level=logging.DEBUG)
 
 
 class Server(object):
     def __init__(self, config_dict=None):
-        self._db_pandas_cli = None
-        if config_dict:
-            self._db_pandas_cli = DataBasePandasClient(config_dict)
+        # print('Server initialized in version ', flags.version)
+        if flags.version == 0:
+            try:
+                self._db_pandas_cli = DataBasePandasClient(config_dict)
+            except Exception:
+                print('db connection failed, server restart in version 1')
+                flags.version = 1
         self._pre_treat_pandas = PreTreatPandas()
         self._pid_optimizer = PidOptimizer()
 
@@ -50,13 +54,22 @@ class Server(object):
 
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
-        df_ph = None
-        df_pump = None
-        if self._db_pandas_cli is not None:
+        if flags.version == 0:
+        # df_ph = None
+        # df_pump = None
+        # if self._db_pandas_cli is not None:
+            print('server start with version 0')
             df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
             df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
             df_pump = None
-        result = self._pid_optimizer.optimize_ph_with_pid(df_ph, df_pump)
+            result = self._pid_optimizer.optimize_ph_with_pid(df_ph, df_pump)
+        elif flags.version == 1:
+            print('server start with version 1')
+            result = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
+        else:
+            print('server version false', flags.version)
+            result = None
+        print('schedule result: ', result)
         return result
 
     def qmf_optimizer_run(self):
