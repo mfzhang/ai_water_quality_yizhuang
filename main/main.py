@@ -11,6 +11,7 @@ import schedule
 from datetime import datetime
 from sqlbase.create_sql_table import DbRandomCreator
 from server.server import Server
+from src.read_db_config import read_db_config
 
 flags = gflags.FLAGS
 gflags.DEFINE_integer('server_time_interval', 5, 'time interval of server run, default=?s')
@@ -26,6 +27,7 @@ def create_simulated_dataset():
 
 
 def server_run():
+
     print('new turn server run')
     logging.info('[{}] server run, every {} seconds'.format(
         datetime.now(), flags.server_time_interval))
@@ -34,9 +36,15 @@ def server_run():
 
 
 def server_ph_run():
-    print('new turn server_ph_run')
-    server = Server()
-    server.ph_optimizer_run()
+    config_dict = None
+    try:
+        config_dict = read_db_config()
+    except Exception:
+        print('请将 config.text 文件和 main.exe 放在同一文件夹下')
+    if config_dict:
+        print('new turn server_ph_run')
+        server = Server(config_dict)
+        server.ph_optimizer_run()
 
 
 def trainer_run():
@@ -63,6 +71,11 @@ def run_simulation(argv):
 
 
 def run_real(argv):
+    try:
+        config_dict = read_db_config()
+    except Exception:
+        print('请将 config.text 文件和 main.exe 放在同一文件夹下')
+
     flags(argv)
     schedule.every(flags.server_time_interval).seconds.do(server_ph_run)
     while True:
@@ -70,6 +83,11 @@ def run_real(argv):
 
 
 if __name__ == '__main__':
-    run_simulation(sys.argv)
-    run_real(sys.argv)
-
+    try:
+        config_dict = read_db_config()
+    # run_simulation(sys.argv)
+    # run_real(sys.argv)
+        print(config_dict)
+    except:
+        pass
+    time.sleep(30)

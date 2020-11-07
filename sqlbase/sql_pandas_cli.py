@@ -21,15 +21,15 @@ class DataBasePandasClient(object):
     ? 微滤运行时间 SET_MFX_RUN_TIME
     ? 微滤前的压力
     '''
-    def __init__(self):
-        self._db_name = 'foo.db'
-        self._db_path = 'sqlite:///' + os.path.split(os.path.realpath(__file__))[0] + '\\' + self._db_name
-        username = 'sa'
-        dbname = 'YZSC'
-        host = '166.111.42.116'
-        password = '123456'
+    def __init__(self, config_dict):
+        # self._db_name = 'foo.db'
+        # self._db_path = 'sqlite:///' + os.path.split(os.path.realpath(__file__))[0] + '\\' + self._db_name
+        user = config_dict['user']  # 'sa'
+        dbname = config_dict['dbname']  # 'YZSC'
+        host = config_dict['host']  # '166.111.42.116'
+        password = config_dict['password']  # '123456'
         # mysql + pymysql: // < username >: < password > @ < host > / < dbname > charset = utf8
-        self._db_path_2 = 'mssql+pymssql://{}:{}@{}/{}'.format(username, password, host, dbname)
+        self._db_path_2 = 'mssql+pymssql://{}:{}@{}/{}'.format(user, password, host, dbname)
         self._engine = create_engine(self._db_path_2, echo=False)
 
     def get_db_data_by_table_name_to_df(self, table_name):
@@ -43,10 +43,12 @@ class DataBasePandasClient(object):
     def get_ph_monitor_data_to_df(self):
         # get 外供水 pH 计的检测值
         logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
-        sql = 'SELECT * FROM AnalogTag, EngineeringUnit, Tag ' \
-              'where Tag.TagName IN (xxx.ph) ' \
-              'AND Tag.TagName=AnalogTag.TagName ' \
-              'AND AnalogTaag.EUKey = EngineeringUnit.EUKey'
+        sql = "SELECT TagName = Tag.TagName, Description = Tag.Description, ' \
+              'MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType ' \
+              'FROM AnalogTag, EngineeringUnit, Tag ' \
+              'WHERE Tag.TagName IN ('PHT301.PH_V') ' \
+              'AND Tag.TagName = AnalogTag.TagName A' \
+              'ND AnalogTag.EUKey = EngineeringUnit.EUKey"
         df = pd.read_sql(sql, self._engine)
         return df
 
@@ -90,6 +92,17 @@ class DataBasePandasClient(object):
         df = pd.read_sql(sql, self._engine)
         return df
 
+    def get_chlorine_before_ro_data(self):
+        logging.info('[{}] sql_pandas_cli: get pressure_before_mf_data from dataset'.format(datetime.now()))
+        sql = "SELECT TagName = Tag.TagName, Description = Tag.Description, " \
+              "MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType " \
+              "FROM AnalogTag, EngineeringUnit, Tag " \
+              "WHERE Tag.TagName IN ('CLT301.CLT_V') " \
+              "AND Tag.TagName = AnalogTag.TagName " \
+              "AND AnalogTag.EUKey = EngineeringUnit.EUKey"
+        df = pd.read_sql(sql, self._engine)
+        return df
+
 
 def test():
     db_pandas_cli = DataBasePandasClient()
@@ -124,4 +137,44 @@ PH：  PHT202
 反渗透 ORP OT201 
 控制还原剂 LT411A/B/C （加在RO前）
 
+'''
+
+'''
+出水外供pH
+SELECT TagName = Tag.TagName, Description = Tag.Description, MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType
+ FROM AnalogTag, EngineeringUnit, Tag
+ WHERE Tag.TagName IN ('PHT301.PH_V')
+ AND Tag.TagName = AnalogTag.TagName
+ AND AnalogTag.EUKey = EngineeringUnit.EUKey
+
+反渗透A产水 （A到G：ROA到ROG）
+SELECT TagName = Tag.TagName, Description = Tag.Description, MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType
+ FROM AnalogTag, EngineeringUnit, Tag
+ WHERE Tag.TagName IN ('USER_SUM_INPUT_OUTPUT.ROA_CS_FT')
+ AND Tag.TagName = AnalogTag.TagName
+ AND AnalogTag.EUKey = EngineeringUnit.EUKey
+
+微滤A进水 （A到F：MFA到MFF）
+SELECT TagName = Tag.TagName, Description = Tag.Description, MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType
+ FROM AnalogTag, EngineeringUnit, Tag
+ WHERE Tag.TagName IN ('MFA.JS_FT')
+ AND Tag.TagName = AnalogTag.TagName
+ AND AnalogTag.EUKey = EngineeringUnit.EUKey
+
+超滤压差（A到F：MFA-MFD）
+SELECT TagName = Tag.TagName, Description = Tag.Description, MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType
+ FROM AnalogTag, EngineeringUnit, Tag
+ WHERE Tag.TagName IN ('MFD.yacha_PV')
+ AND Tag.TagName = AnalogTag.TagName
+ AND AnalogTag.EUKey = EngineeringUnit.EUKey
+
+
+出水余氯仪
+SELECT TagName = Tag.TagName, Description = Tag.Description, MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType
+ FROM AnalogTag, EngineeringUnit, Tag
+ WHERE Tag.TagName IN ('CLT301.CLT_V')
+ AND Tag.TagName = AnalogTag.TagName
+ AND AnalogTag.EUKey = EngineeringUnit.EUKey
+ 氯
+碱 出水  微滤
 '''

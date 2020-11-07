@@ -15,8 +15,10 @@ from optimizer.pid_optimizer import PidOptimizer
 
 
 class Server(object):
-    def __init__(self):
-        self._db_pandas_cli = DataBasePandasClient()
+    def __init__(self, config_dict=None):
+        self._db_pandas_cli = None
+        if config_dict:
+            self._db_pandas_cli = DataBasePandasClient(config_dict)
         self._pre_treat_pandas = PreTreatPandas()
         self._pid_optimizer = PidOptimizer()
 
@@ -48,9 +50,13 @@ class Server(object):
 
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
-        df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
-        df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
-        result = self._pid_optimizer.optimize_ph_with_pid(df_ph)
+        df_ph = None
+        df_pump = None
+        if self._db_pandas_cli is not None:
+            df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
+            df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
+            df_pump = None
+        result = self._pid_optimizer.optimize_ph_with_pid(df_ph, df_pump)
         return result
 
     def qmf_optimizer_run(self):

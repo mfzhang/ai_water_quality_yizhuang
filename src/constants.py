@@ -25,7 +25,7 @@ class WaterQualityMaxLim(object):
     CHLORINE = 1.1
     ORT = 1.1
 
-# class PhStandard(object):
-#     STANDARD = 6.5
-#     MAXLIMIT = 6.6
-#     MINLIMIT = 6.4
+class PhStandard(object):
+    STANDARD = 6.5
+    MAXLIMIT = 6.6
+    MINLIMIT = 6.4
