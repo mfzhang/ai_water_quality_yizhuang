@@ -7,10 +7,10 @@ import logging
 from datetime import datetime
 from sqlbase.sql_pandas_cli import DataBasePandasClient
 from sqlbase.sql_cli import DataBaseSqlClient
-from sqlbase.sql_table_base import INDICATOR_LIST, INJECTOR_LIST
 from src.pre_treat_pandas import PreTreatPandas
 from optimizer.pid_optimizer import PidOptimizer
 from src.constants import flags
+
 # logging.basicConfig(filename='server.log', level=logging.DEBUG)
 
 

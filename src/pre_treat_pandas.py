@@ -3,7 +3,6 @@
 # @Author  : MA Ziqing
 # @FileName: pre_treat_pandas.py
 
-import numpy as np
 import pandas as pd
 
 

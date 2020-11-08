@@ -3,8 +3,6 @@ import sys
 import logging
 from datetime import datetime
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlbase.sql_table_base import QualityIndicator, ALL_LIST
 
 import pandas as pd
 
