@@ -16,68 +16,52 @@ from src.constants import flags
 
 class Server(object):
     def __init__(self, config_dict=None):
-        # print('Server initialized in version ', flags.version)
         if flags.version == 0:
             try:
                 self._db_pandas_cli = DataBasePandasClient(config_dict)
+                print('【{}】 数据库连接正常 Server 以版本{}启动'.format(datetime.now(), flags.version))
             except Exception:
-                print('db connection failed, server restart in version 1')
                 flags.version = 1
+                print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), flags.version))
+        else:
+            print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), flags.version))
         self._pre_treat_pandas = PreTreatPandas()
         self._pid_optimizer = PidOptimizer()
-
-    # def get_input_data(self):
-    #     table_name = INJECTOR_LIST[0].__tablename__
-    #     return self._db_pandas_cli.get_db_data_by_table_name_to_df(table_name)
-    #
-    # def get_label_data(self):
-    #     table_name = INDICATOR_LIST[0].__tablename__
-    #     return self._db_pandas_cli.get_db_data_by_table_name_to_df(table_name)
-    #
-    # def pre_treat_input_data(self, df):
-    #     return self._pre_treat_pandas.mask_extreme_value(df)
-    #
-    # def treat_with_ml_model(self, df):
-    #     return df
-    #
-    # def optimize_config(self, df_out, df_out_pred):
-    #     output_instruct = self._pid_optimizer.optimize_config_with_pid(df_out, df_out_pred)
-    #     return output_instruct
-    #
-    # def run_simulation(self):
-    #     df_inp = self.get_input_data()
-    #     df_inp = self.pre_treat_input_data(df_inp)
-    #     df_out_pred = self.treat_with_ml_model(df_inp)
-    #     df_out = self.get_label_data()
-    #     output_instruct = self.optimize_config(df_out, df_out_pred)
-    #     logging.info('[{}], {}'.format(datetime.now(), output_instruct))
 
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
         if flags.version == 0:
-        # df_ph = None
-        # df_pump = None
-        # if self._db_pandas_cli is not None:
-            print('server start with version 0')
             df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
             df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
             df_pump = None
             result = self._pid_optimizer.optimize_ph_with_pid(df_ph, df_pump)
         elif flags.version == 1:
-            print('server start with version 1')
+            # print('server start with version 1')
             result = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
         else:
-            print('server version false', flags.version)
+            # print('server version false', flags.version)
             result = None
-        print('schedule result: ', result)
+        print('【{}】 schedule result: {} '.format(datetime.now(), result))
         return result
 
-    def qmf_optimizer_run(self):
-        # quantity_micro_filter 微滤进水流量优化模块：使进水与出水相当
-        df_outflow = self._db_pandas_cli.get_outflow_quantity_data()
-        df_outflow = self._pre_treat_pandas.mask_extreme_value(df_outflow)
-        result = self._pid_optimizer.optimizer_mf_by_outflow_with_pid(df_outflow)
+    # def qmf_optimizer_run(self):
+    #     # quantity_micro_filter 微滤进水流量优化模块：使进水与出水相当
+    #     df_outflow = self._db_pandas_cli.get_outflow_quantity_data()
+    #     df_outflow = self._pre_treat_pandas.mask_extreme_value(df_outflow)
+    #     result = self._pid_optimizer.optimizer_mf_by_outflow_with_pid(df_outflow)
+    #     return result
+
+    def deoxidant_optimizer_run(self):
+        result = self._pid_optimizer.optimze_deoxidant_by_orp_with_pid()
+        print('【{}】 schedule result: {} '.format(datetime.now(), result))
         return result
+
+    def ro_number_optimizer_run(self):
+        result = self._pid_optimizer.optimizer_mf_by_outflow_with_pid()
+        print('【{}】 schedule result: {} '.format(datetime.now(), result))
+        return result
+
+
 
     @staticmethod
     def write_result(result_list):
@@ -102,11 +86,19 @@ class Server(object):
         if json_res_ph:
             result_list += [json_res_ph]
 
-        json_res_xxx = self.qmf_optimizer_run()
-        if json_res_xxx:
-            result_list += [json_res_xxx]
+        json_res_deoxidant = self.deoxidant_optimizer_run()
+        if json_res_deoxidant:
+            result_list += [json_res_deoxidant]
 
-        self.write_result(result_list)
+        json_res_ro_number = self.ro_number_optimizer_run()
+        if json_res_ro_number:
+            result_list += [json_res_ro_number]
+
+        if flags.version == 0:
+            self.write_result(result_list)
+            print('【{}】 调度结果写入数据库'.format(datetime.now()))
+        else:
+            print('【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now()))
 
 
 def test():

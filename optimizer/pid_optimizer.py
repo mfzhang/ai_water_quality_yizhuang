@@ -10,14 +10,6 @@ class PidOptimizer(object):
         pass
 
     @staticmethod
-    def optimize_config_with_pid(df_out, df_out_pred):
-        standard = 80
-        if df_out['value1'].mean() > standard:
-            return 'reduce injector'
-        else:
-            return 'augment injector'
-
-    @staticmethod
     def write_result(self, rows):
         logging.info('[{}] write result 【{}】 into OutputDB'.format(
             datetime.now(), rows
@@ -49,14 +41,45 @@ class PidOptimizer(object):
         else:
             return random.choice([result_increase, result_reduce, None])
 
-    def optimizer_mf_by_outflow_with_pid(self, df_outflow):
-        result = {
-            'device': 'JYDY1',
-            'parameter': '酸泵',
-            'originalValue': 0,
-            'newValue': 0
+    def optimze_deoxidant_by_orp_with_pid(self, df_orp=None):
+        new_values = random.randint(1, 4)
+        result_increase = {
+            'device': 'LT411A',
+            'parameter': 'unknown',
+            'originalValue': 'unknown',
+            'newValue': '+' + str(new_values / 10)
         }
-        return result
+        result_reduce = {
+            'device': 'LT411A',
+            'parameter': 'unknown',
+            'originalValue': 'unknown',
+            'newValue': '-' + str(new_values / 10)
+        }
+        if df_orp:
+            if df_orp.max() > PhStandard.MAXLIMIT:
+                return result_reduce
+            elif df_orp.min() < PhStandard.MINLIMIT:
+                return result_increase
+            else:
+                return None
+        else:
+            return random.choice([result_increase, result_reduce, None])
+
+    def optimizer_mf_by_outflow_with_pid(self, df_outflow=None):
+        new_values = random.randint(0, 1)
+        result_increase = {
+            'device': 'RO套数',
+            'parameter': 'unknown',
+            'originalValue': 'unknown',
+            'newValue': '增加{}套'.format(new_values)
+        }
+        result_reduce = {
+            'device': 'RO套数',
+            'parameter': 'unknown',
+            'originalValue': 'unknown',
+            'newValue': '减少{}套'.format(new_values)
+        }
+        return random.choice([result_increase, result_reduce, None])
 
 
 def test():
