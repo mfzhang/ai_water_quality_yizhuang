@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from sqlbase.sql_cli import DataBaseSqlClient
+# from sqlbase.sql_cli import DataBaseSqlClient
 from src.constants import PhStandard
 import random
 
@@ -8,14 +8,6 @@ import random
 class PidOptimizer(object):
     def __init__(self):
         pass
-
-    @staticmethod
-    def write_result(self, rows):
-        logging.info('[{}] write result 【{}】 into OutputDB'.format(
-            datetime.now(), rows
-        ))
-        db_sql_cli = DataBaseSqlClient()
-        db_sql_cli.write_rows_into_output_table(rows)
 
     def optimize_ph_with_pid(self, df_ph, df_pump):
         new_values = random.randint(1, 4)

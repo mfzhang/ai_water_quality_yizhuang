@@ -3,7 +3,6 @@ import sys
 import logging
 from datetime import datetime
 from sqlalchemy import create_engine
-
 import pandas as pd
 
 
@@ -29,6 +28,10 @@ class DataBasePandasClient(object):
         # mysql + pymysql: // < username >: < password > @ < host > / < dbname > charset = utf8
         self._db_path_2 = 'mssql+pymssql://{}:{}@{}/{}'.format(user, password, host, dbname)
         self._engine = create_engine(self._db_path_2, echo=False)
+
+    def get_db_data_test(self):
+        sql = 'select * from result1'
+        df = pd.read_sql(sql, self._engine)
 
     def get_db_data_by_table_name_to_df(self, table_name):
         # 测试
@@ -101,6 +104,30 @@ class DataBasePandasClient(object):
         df = pd.read_sql(sql, self._engine)
         return df
 
+    def write_one_row_into_output_result1(self, row):
+        sql = 'select max(id) from result1'
+        df_id = pd.read_sql(sql, self._engine).values[0][0]
+        if df_id:
+            id = df_id + 1
+        else:
+            id = 1
+        row['id'] = [id]
+        df_res = pd.DataFrame(row).set_index('id')
+        df_res.to_sql('result1', con=self._engine, if_exists='append')
+        a = 1
+        # Session = sessionmaker(bind=self._engine)
+        # session = Session()
+        # last_row = session.query(Result1).order_by(Result1.id.desc()).first()
+        # res = Result1()
+        # if last_row:
+        #     res.id = last_row.id + 1
+        # else:
+        #     res.id = 0
+        # res.json = row['json']
+        # res.state = row['state']
+        # res.type = row['type']
+        # session.add(res)
+        # session.commit()
 
 def test():
     db_pandas_cli = DataBasePandasClient()

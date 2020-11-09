@@ -1,17 +1,18 @@
-import os
+import json
 
 
 def read_db_config():
-    config_dict = dict()
+    # config_dict = dict()
     # path = os.path.abspath(__file__)
     # print('read_db abspath', path)
-    with open('../main/config.txt', 'r') as f:
+    with open('./config.txt', 'r') as f:
         text = f.read()
-        text_list = text.split('\n')
-    config_dict['host'] = text_list[0]
-    config_dict['user'] = text_list[1]
-    config_dict['password'] = text_list[2]
-    config_dict['dbname'] = text_list[3]
+        config_dict = json.loads(text)
+    #     text_list = text.split('\n')
+    # config_dict['host'] = text_list[0]
+    # config_dict['user'] = text_list[1]
+    # config_dict['password'] = text_list[2]
+    # config_dict['dbname'] = text_list[3]
     return config_dict
 
 

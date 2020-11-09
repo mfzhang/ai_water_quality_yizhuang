@@ -3,10 +3,11 @@
 # @Author  : MA Ziqing
 # @FileName: server.py.py
 import os
+import json
 import logging
 from datetime import datetime
 from sqlbase.sql_pandas_cli import DataBasePandasClient
-from sqlbase.sql_cli import DataBaseSqlClient
+# from sqlbase.sql_cli import DataBaseSqlClient
 from src.pre_treat_pandas import PreTreatPandas
 from optimizer.pid_optimizer import PidOptimizer
 from src.constants import flags
@@ -19,10 +20,13 @@ class Server(object):
         if flags.version == 0:
             try:
                 self._db_pandas_cli = DataBasePandasClient(config_dict)
+                # self._db_sql_cli = DataBaseSqlClient(config_dict)
+                self._db_pandas_cli.get_db_data_test()
                 print('【{}】 数据库连接正常 Server 以版本{}启动'.format(datetime.now(), flags.version))
-            except Exception:
+            except Exception as e:
                 flags.version = 1
-                print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), flags.version))
+                print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动，错误原因：{}'.format(
+                    datetime.now(), flags.version, repr(e)))
         else:
             print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), flags.version))
         self._pre_treat_pandas = PreTreatPandas()
@@ -31,10 +35,10 @@ class Server(object):
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
         if flags.version == 0:
-            df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
-            df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
-            df_pump = None
-            result = self._pid_optimizer.optimize_ph_with_pid(df_ph, df_pump)
+            # df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
+            # df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
+            # df_pump = None
+            result = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
         elif flags.version == 1:
             # print('server start with version 1')
             result = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
@@ -61,23 +65,22 @@ class Server(object):
         print('【{}】 schedule result: {} '.format(datetime.now(), result))
         return result
 
-
-
-    @staticmethod
-    def write_result(result_list):
+    def write_result(self, result_list):
         logging.info('[{}] write result 【{}】 into OutputDB'.format(
             datetime.now(), result_list
             ))
-        rows = {'id': 1,
-                'time': datetime.now(),
-                'energyPred': 10.2,
-                'drugPred': 7.8,
-                'deviceList': result_list,
-                'state': 1,
-                'type': 1
-                }
-        db_sql_cli = DataBaseSqlClient()
-        db_sql_cli.write_rows_into_output_table(rows)
+        row_json = {
+            'time': str(datetime.now()),
+            'energyPred': 10.2,
+            'drugPred': 7.8,
+            'deviceList': result_list}
+        rows = {'id': [1],
+                'json': [json.dumps(row_json)],
+                'state': [1],
+                'type': [1]
+                 }
+        # self._db_sql_cli = DataBaseSqlClient()
+        self._db_pandas_cli.write_one_row_into_output_result1(rows)
 
     def run_real(self):
         result_list = []
