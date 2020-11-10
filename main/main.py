@@ -37,8 +37,9 @@ def run_all():
     except Exception:
         print('【{}】 读取 config.txt 文件失败，请将 config.text 文件和 main.exe 放在同一文件夹下'.format(datetime.now()))
         flags.version = 1
-    monitor = Monitor(config_dict)
-    monitor.run()
+
+    # monitor = Monitor(config_dict)
+    # monitor.run()
     server = Server(config_dict)
     server.run_real()
 

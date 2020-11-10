@@ -44,6 +44,7 @@ class Server(object):
             result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
         else:
             # print('server version false', flags.version)
+            drug_pred = None
             result = None
         print('【{}】 schedule result: {} '.format(datetime.now(), result))
         return result, drug_pred
@@ -87,7 +88,13 @@ class Server(object):
                 'type': [optimize_type]
                 }
         # self._db_sql_cli = DataBaseSqlClient()
-        self._db_pandas_cli.write_one_row_into_output_result1(rows)
+        print('【{}】 type={}, 优化结果为：{}'.format(datetime.now(), optimize_type, row_json))
+        if flags.version == 0:
+
+            print('【{}】 调度结果写入数据库'.format(datetime.now()))
+            self._db_pandas_cli.write_one_row_into_output_result1(rows)
+        else:
+            print('【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now()))
 
     def run_real(self):
         result_list_energy = []
@@ -110,14 +117,11 @@ class Server(object):
             result_list_energy += [json_res_ro_number]
             energy_saved += energy_saved
 
-        if flags.version == 0:
-            # 写入节电算法结果
-            self.write_result(result_list_energy, [energy_saved, drug_saved], optimize_type=1)
-            # 写入节药算法结果
-            self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
-            print('【{}】 调度结果写入数据库'.format(datetime.now()))
-        else:
-            print('【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now()))
+        # 写入节电算法结果
+        self.write_result(result_list_energy, [energy_saved, drug_saved], optimize_type=1)
+        # 写入节药算法结果
+        self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
+
 
 
 def test():
