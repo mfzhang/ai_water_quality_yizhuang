@@ -11,6 +11,7 @@ class PidOptimizer(object):
 
     def optimize_ph_with_pid(self, df_ph, df_pump):
         new_values = random.randint(1, 4)
+        drug_pred = random.randint(1, 5)/100
         result_increase = {
             'device': 'P410A',
             'parameter': 'unknown',
@@ -31,10 +32,11 @@ class PidOptimizer(object):
             else:
                 return None
         else:
-            return random.choice([result_increase, result_reduce, None])
+            return random.choice([result_increase, result_reduce, None]), drug_pred
 
     def optimze_deoxidant_by_orp_with_pid(self, df_orp=None):
         new_values = random.randint(1, 4)
+        drug_pred = random.randint(1, 5)/100
         result_increase = {
             'device': 'LT411A',
             'parameter': 'unknown',
@@ -55,10 +57,11 @@ class PidOptimizer(object):
             else:
                 return None
         else:
-            return random.choice([result_increase, result_reduce, None])
+            return random.choice([result_increase, result_reduce, None]), drug_pred
 
     def optimizer_mf_by_outflow_with_pid(self, df_outflow=None):
         new_values = random.randint(0, 1)
+        energy_pred = random.randint(1, 5)/100
         result_increase = {
             'device': 'RO套数',
             'parameter': 'unknown',
@@ -71,7 +74,7 @@ class PidOptimizer(object):
             'originalValue': 'unknown',
             'newValue': '减少{}套'.format(new_values)
         }
-        return random.choice([result_increase, result_reduce, None])
+        return random.choice([result_increase, result_reduce, None]), energy_pred
 
 
 def test():
