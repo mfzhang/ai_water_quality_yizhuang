@@ -1,0 +1,9 @@
+*.pyc
+.idea
+.vscode
+
+*/dist/
+*/build/
+# *.txt
+*.spec
+
