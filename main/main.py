@@ -43,7 +43,7 @@ def run_all():
 
 def run_real(argv):
     flags(argv)
-    schedule.every(flags.server_time_interval * 60).seconds.do(run_all)
+    schedule.every(flags.server_time_interval).seconds.do(run_all)
     while True:
         schedule.run_pending()
 
