@@ -27,19 +27,20 @@ logging.basicConfig(filename='main.log', level=logging.DEBUG)
 
 
 def run_all():
-    print('\n【{}】 新一轮调度开始 server_deoxidant_run scheduled at version {}'.format(datetime.now(), flags.version))
+    _name_ = 'main'
+    print('\n【{}】【{}】 新一轮调度开始 at version {}'.format(datetime.now(), _name_, flags.version))
     config_dict = None
     try:
         config_dict = read_db_config()
-        print('【{}】 读取 config.text 文件成功'.format(datetime.now()))
+        print('【{}】【{}】 读取 config.text 文件成功'.format(datetime.now(), _name_))
         flags.version = 0
-        flags.server_time_interval = config_dict['schedule_timestep_minute']
-    except Exception:
-        print('【{}】 读取 config.txt 文件失败，请将 config.text 文件和 main.exe 放在同一文件夹下'.format(datetime.now()))
+        flags.server_time_interval = config_dict['schedule_timestep_seconds']
+    except Exception as e:
+        print('【{}】【{}】 读取 config.txt 文件失败，原因：{}'.format(datetime.now(), _name_, repr(e)))
         flags.version = 1
-
-    # monitor = Monitor(config_dict)
-    # monitor.run()
+    if flags.version == 0:
+        monitor = Monitor(config_dict)
+        monitor.run()
     server = Server(config_dict)
     server.run_real()
 
@@ -49,6 +50,7 @@ def run_real(argv):
     schedule.every(flags.server_time_interval).seconds.do(run_all)
     while True:
         schedule.run_pending()
+        time.sleep(10)
 
 
 if __name__ == '__main__':

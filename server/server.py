@@ -17,18 +17,19 @@ from src.constants import flags
 
 class Server(object):
     def __init__(self, config_dict=None):
+        self._name_ = 'server'
         if flags.version == 0:
             try:
                 self._db_pandas_cli = DataBasePandasClient(config_dict)
                 # self._db_sql_cli = DataBaseSqlClient(config_dict)
                 self._db_pandas_cli.get_db_data_test()
-                print('【{}】 数据库连接正常 Server 以版本{}启动'.format(datetime.now(), flags.version))
+                print('【{}】【{}】数据库连接正常 Server 以版本{}启动'.format(datetime.now(), self._name_, flags.version))
             except Exception as e:
                 flags.version = 1
-                print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动，错误原因：{}'.format(
-                    datetime.now(), flags.version, repr(e)))
+                print('【{}】【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动，错误原因：{}'.format(
+                    datetime.now(), self._name_, flags.version, repr(e)))
         else:
-            print('【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), flags.version))
+            print('【{}】【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), self._name_, flags.version))
         self._pre_treat_pandas = PreTreatPandas()
         self._pid_optimizer = PidOptimizer()
 
@@ -46,7 +47,7 @@ class Server(object):
             # print('server version false', flags.version)
             drug_pred = None
             result = None
-        print('【{}】 schedule result: {} '.format(datetime.now(), result))
+        print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, drug_pred
 
     # def qmf_optimizer_run(self):
@@ -58,17 +59,17 @@ class Server(object):
 
     def deoxidant_optimizer_run(self):
         result, drug_pred = self._pid_optimizer.optimze_deoxidant_by_orp_with_pid()
-        print('【{}】 schedule result: {} '.format(datetime.now(), result))
+        print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, drug_pred
 
     def ro_number_optimizer_run(self):
         result, energy_pred = self._pid_optimizer.optimizer_mf_by_outflow_with_pid()
-        print('【{}】 schedule result: {} '.format(datetime.now(), result))
+        print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, energy_pred
 
     def write_result(self, result_list, resource_pred_list, optimize_type=1):
-        logging.info('[{}] write result 【{}】 into OutputDB'.format(
-            datetime.now(), result_list
+        logging.info('【{}】【{}】 write result 【{}】 into OutputDB'.format(
+            datetime.now(), self._name_, result_list
             ))
         if optimize_type == 1:
             row_json = {
@@ -88,13 +89,13 @@ class Server(object):
                 'type': [optimize_type]
                 }
         # self._db_sql_cli = DataBaseSqlClient()
-        print('【{}】 type={}, 优化结果为：{}'.format(datetime.now(), optimize_type, row_json))
+        print('【{}】【{}】 type={}, 优化结果为：{}'.format(datetime.now(), self._name_, optimize_type, row_json))
         if flags.version == 0:
 
-            print('【{}】 调度结果写入数据库'.format(datetime.now()))
+            print('【{}】【{}】 调度结果写入数据库'.format(datetime.now(), self._name_))
             self._db_pandas_cli.write_one_row_into_output_result1(rows)
         else:
-            print('【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now()))
+            print('【{}】【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now(), self._name_))
 
     def run_real(self):
         result_list_energy = []

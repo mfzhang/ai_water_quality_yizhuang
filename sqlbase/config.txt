@@ -1,1 +1,0 @@
-{"host": "166.111.42.142", "user": "sa", "password": "abc123", "dbname": "YZSC", "schedule_timestep_minute": 0.1}

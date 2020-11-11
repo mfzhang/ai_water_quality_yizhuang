@@ -16,18 +16,19 @@ from src.constants import flags
 
 class Monitor(object):
     def __init__(self, config_dict=None):
+        self._name_ = 'monitor'
         if flags.version == 0:
             try:
                 self._db_pandas_cli = DataBasePandasClient(config_dict)
                 # self._db_sql_cli = DataBaseSqlClient(config_dict)
                 self._db_pandas_cli.get_db_data_test()
-                print('【{}】 数据库连接正常 Monitor 以版本{}启动'.format(datetime.now(), flags.version))
+                print('【{}】【{}】 数据库连接正常 Monitor 以版本{}启动'.format(datetime.now(), self._name_, flags.version))
             except Exception as e:
                 flags.version = 1
-                print('【{}】 数据库连接无法建立，启动模拟版本，Monitor 以版本{}启动，错误原因：{}'.format(
-                    datetime.now(), flags.version, repr(e)))
+                print('【{}】【{}】 数据库连接无法建立，启动模拟版本，Monitor 以版本{}启动，错误原因：{}'.format(
+                    datetime.now(), self._name_, flags.version, repr(e)))
         else:
-            print('【{}】 数据库连接无法建立，启动模拟版本，Monitor 以版本{}启动'.format(datetime.now(), flags.version))
+            print('【{}】【{}】 数据库连接无法建立，启动模拟版本，Monitor 以版本{}启动'.format(datetime.now(), self._name_, flags.version))
         # self._pre_treat_pandas = PreTreatPandas()
         # self._pid_optimizer = PidOptimizer()
 
@@ -37,49 +38,51 @@ class Monitor(object):
             # 节点算法
             if df['type'][index] == 1:
                 result2_device_list = []
-                json_as_dict = json.loads(df['json'])
+                json_as_dict = json.loads(df['json'][index])
                 device_json_list = json_as_dict['deviceList']
                 for device_json in device_json_list:
                     device = device_json['device']
                     new_value = device_json['newValue']
                     change, now_value = self.query_device_status(device, new_value)
-                    result2_device_list += [{'change':change,
-                                           'device': device,
-                                           'parameter': device_json['parameter'],
-                                           'nowValue': now_value}]
-                result2 = {'id': 0,
-                           'time': str(datetime.now()),
-                           'energyPred': 10.2,
-                           'energyNow': 12,
-                           'drugPred': 11,
-                           'drugNow': 5,
-                           'deviceList': result2_device_list,
-                           'state': 1,
-                           'type': 1}
-                self._db_pandas_cli.write_one_row_into_output_result2(result2)
+                    result2_device_list += [{'change': change,
+                                             'device': device,
+                                             'parameter': device_json['parameter'],
+                                             'nowValue': now_value}]
+                result2_dict = {'resultId': [0],
+                                'json': [json.dumps({'time': str(datetime.now()),
+                                                     'energyPred': 10.2,
+                                                     'energyNow': 12,
+                                                     'drugPred': 11,
+                                                     'drugNow': 5,
+                                                     'deviceList': result2_device_list})],
+                                'state': [1],
+                                'stype': [1]}
+                print('【{}】【{}】 type=1, 优化结果为：{}'.format(datetime.now(), self._name_, result2_dict))
+                self._db_pandas_cli.write_one_row_into_output_result2(result2_dict)
 
             elif df['type'][index] == 2:
                 result2_device_list = []
-                json_as_dict = json.loads(df['json'])
+                json_as_dict = json.loads(df['json'][index])
                 device_json_list = json_as_dict['deviceList']
                 for device_json in device_json_list:
                     device = device_json['device']
                     new_value = device_json['newValue']
                     change, now_value = self.query_device_status(device, new_value)
                     result2_device_list += [{'change':change,
-                                           'device': device,
-                                           'parameter': device_json['parameter'],
-                                           'nowValue': now_value}]
-                result2 = {'id': 0,
-                           'time': str(datetime.now()),
-                           'energyPred': 10.2,
-                           'energyNow': 12,
-                           'drugPred': 11,
-                           'drugNow': 5,
-                           'deviceList': result2_device_list,
-                           'state': 1,
-                           'type': 1}
-                self._db_pandas_cli.write_one_row_into_output_result2(result2)
+                                             'device': device,
+                                             'parameter': device_json['parameter'],
+                                             'nowValue': now_value}]
+                result2_dict = {'resultId': [0],
+                                'json': [json.dumps({'time': str(datetime.now()),
+                                                     'energyPred': 10.2,
+                                                     'energyNow': 12,
+                                                     'drugPred': 11,
+                                                     'drugNow': 5,
+                                                     'deviceList': result2_device_list})],
+                                'state': [1],
+                                'stype': [2]}
+                print('【{}】【{}】 type=2, 优化结果为：{}'.format(datetime.now(), self._name_, result2_dict))
+                self._db_pandas_cli.write_one_row_into_output_result2(result2_dict)
 
     def query_device_status(self, device, new_value):
         return 0, 5

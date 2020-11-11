@@ -489,3 +489,51 @@ INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 01:
 INFO:root:[2020-11-11 01:03:41.039679] write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
 INFO:root:[2020-11-11 01:03:41.040666] write result 【[{'device': 'P410A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.2'}, {'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.2'}]】 into OutputDB
 INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 01:03:41, next run: 2020-11-11 01:03:46)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 12:57:01)
+INFO:root:[2020-11-11 12:57:43.333917] write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '减少0套'}]】 into OutputDB
+INFO:root:[2020-11-11 12:57:43.337909] write result 【[{'device': 'P410A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.4'}, {'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.2'}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 12:57:43, next run: 2020-11-11 12:57:48)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:03:46)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:36:13)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:39:36)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:41:29)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:45:18)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:47:31)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:49:02)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:51:46)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:52:42)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:53:57)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:54:25)
+INFO:root:【2020-11-11 13:54:25.778710】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '减少0套'}]】 into OutputDB
+INFO:root:【2020-11-11 13:54:25.850945】【server】 write result 【[]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:54:25, next run: 2020-11-11 13:54:30)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:57:26)
+INFO:root:【2020-11-11 13:57:27.320353】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
+INFO:root:【2020-11-11 13:57:27.429413】【server】 write result 【[{'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '+0.2'}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:57:27, next run: 2020-11-11 13:57:32)
+INFO:root:【2020-11-11 13:57:33.340541】【server】 write result 【[]】 into OutputDB
+INFO:root:【2020-11-11 13:57:33.483552】【server】 write result 【[]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:57:33, next run: 2020-11-11 13:57:38)
+INFO:root:【2020-11-11 13:57:39.135344】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
+INFO:root:【2020-11-11 13:57:39.216549】【server】 write result 【[{'device': 'P410A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '+0.3'}, {'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.1'}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:57:39, next run: 2020-11-11 13:57:44)
+INFO:root:【2020-11-11 13:57:44.801306】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
+INFO:root:【2020-11-11 13:57:44.873114】【server】 write result 【[]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:57:44, next run: 2020-11-11 13:57:49)
+INFO:root:【2020-11-11 13:57:50.438650】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
+INFO:root:【2020-11-11 13:57:50.634160】【server】 write result 【[{'device': 'P410A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.2'}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 13:59:29)
+INFO:root:【2020-11-11 13:59:29.963353】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
+INFO:root:【2020-11-11 13:59:30.036240】【server】 write result 【[]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:59:30, next run: 2020-11-11 13:59:35)
+INFO:root:【2020-11-11 13:59:35.716238】【server】 write result 【[]】 into OutputDB
+INFO:root:【2020-11-11 13:59:35.819756】【server】 write result 【[]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 13:59:35, next run: 2020-11-11 13:59:40)
+INFO:root:【2020-11-11 13:59:41.395044】【server】 write result 【[]】 into OutputDB
+INFO:root:【2020-11-11 13:59:41.485446】【server】 write result 【[{'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.3'}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-11 14:00:52)
+INFO:root:【2020-11-11 14:00:59.055677】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '减少0套'}]】 into OutputDB
+INFO:root:【2020-11-11 14:00:59.272574】【server】 write result 【[{'device': 'P410A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '+0.2'}, {'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '+0.3'}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: 2020-11-11 14:00:59, next run: 2020-11-11 14:01:04)
+INFO:root:【2020-11-11 14:01:10.829655】【server】 write result 【[{'device': 'RO套数', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '增加1套'}]】 into OutputDB
+INFO:root:【2020-11-11 14:01:11.061721】【server】 write result 【[{'device': 'P410A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '+0.3'}, {'device': 'LT411A', 'parameter': 'unknown', 'originalValue': 'unknown', 'newValue': '-0.3'}]】 into OutputDB

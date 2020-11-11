@@ -117,30 +117,31 @@ class DataBasePandasClient(object):
         a = 1
 
     def get_result1_last_two_row(self):
-        sql = 'select * from result1 where id=(select max(id) from result1)'
+        sql = 'select * from result1 where id >= (select max(id)-1 from result1)'
         return pd.read_sql(sql, self._engine)
 
     def write_one_row_into_output_result2(self, row):
-        sql = 'select max(id) from result2'
+        sql = 'select max(resultId) from result2'
         df_id = pd.read_sql(sql, self._engine).values[0][0]
         if df_id:
             id = df_id + 1
         else:
             id = 1
-        row['id'] = [id]
-        df_res = pd.DataFrame(row).set_index('id')
-        df_res.to_sql('result1', con=self._engine, if_exists='append')
+        row['resultId'] = [id]
+        df_res = pd.DataFrame(row).set_index('resultId')
+        df_res.to_sql('result2', con=self._engine, if_exists='append')
         a = 1
 
 
-def test():
-    db_pandas_cli = DataBasePandasClient()
-    df = db_pandas_cli.get_db_data_by_table_name_to_df('result1')
-    print(df)
+# def test():
+#     db_pandas_cli = DataBasePandasClient()
+#     df = db_pandas_cli.get_db_data_by_table_name_to_df('result1')
+#     print(df)
 
 
 if __name__ == '__main__':
-    test()
+    pass
+    # test()
 
 '''
 笔记
