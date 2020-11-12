@@ -38,8 +38,9 @@ def run_all():
     except Exception as e:
         print('【{}】【{}】 读取 config.txt 文件失败，原因：{}'.format(datetime.now(), _name_, repr(e)))
         flags.version = 1
+
+    monitor = Monitor(config_dict)
     if flags.version == 0:
-        monitor = Monitor(config_dict)
         monitor.run()
     server = Server(config_dict)
     server.run_real()
