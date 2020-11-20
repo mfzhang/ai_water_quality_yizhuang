@@ -6,4 +6,5 @@
 */build/
 # *.txt
 *.spec
+*.xlsx
 

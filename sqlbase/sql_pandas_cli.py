@@ -5,6 +5,49 @@ from datetime import datetime
 from sqlalchemy import create_engine
 import pandas as pd
 
+SQL = "SET NOCOUNT ON " \
+      "DECLARE @StartDate DateTime " \
+      "DECLARE @EndDate DateTime " \
+      "SET @StartDate = DateAdd(mi,-5,GetDate()) " \
+      "SET @EndDate = GetDate() " \
+      "SET NOCOUNT OFF " \
+      "SELECT temp.TagName ,DateTime = convert(nvarchar, DateTime, 21) ,Value ,vValue ,MinRaw = ISNULL(Cast(AnalogTag.MinRaw as VarChar(20)),'N/A') ,MaxRaw = ISNULL(Cast(AnalogTag.MaxRaw as VarChar(20)),'N/A') ,MinEU = ISNULL(Cast(AnalogTag.MinEU as VarChar(20)),'N/A') ,MaxEU = ISNULL(Cast(AnalogTag.MaxEU as VarChar(20)),'N/A') ,Unit = ISNULL(Cast(EngineeringUnit.Unit as nVarChar(20)),'N/A') ,Quality ,QualityDetail = temp.QualityDetail ,QualityString ,wwResolution ,StartDateTime From (" \
+      "SELECT * " \
+      "FROM History WHERE History.TagName IN ('{}') " \
+      "AND wwRetrievalMode = 'Cyclic' " \
+      "AND wwCycleCount = 100 " \
+      "AND wwQualityRule = 'Extended' " \
+      "AND wwVersion = 'Latest' " \
+      "AND DateTime >= @StartDate " \
+      "AND DateTime <= @EndDate) temp " \
+      "LEFT JOIN AnalogTag ON AnalogTag.TagName =temp.TagName " \
+      "LEFT JOIN EngineeringUnit ON AnalogTag.EUKey = EngineeringUnit.EUKey " \
+      "LEFT JOIN QualityMap ON QualityMap.QualityDetail = temp.QualityDetail " \
+      "WHERE temp.StartDateTime >= @StartDate"
+
+device_dict = {
+    'mid_tank_level_a': {'read_name': 'LT201A.LV', 'write_name': 'LT201A'},
+    'mid_tank_level_b': {'read_name': 'LT201B.LV', 'write_name': 'LT201B'},
+    'out_tank_level_a': {'read_name': 'LT301A.LV', 'write_name': 'LT301A'},
+    'out_tank_level_b': {'read_name': 'LT301B.LV', 'write_name': 'LT301B'},
+
+    'alkali_injector_frequency_a': {'read_name': 'P411A.SC', 'write_name': 'SP_P411A_SC'},
+    'alkali_injector_frequency_b': {'read_name': 'P411B.SC', 'write_name': 'SP_P411B_SC'},
+    'outflow_ph': {'read_name': 'PHT201.PH_V', 'write_name': 'CIT202'},
+
+    'deoxidant_injector_frequency_c': {'read_name': 'P409B.SP_SC', 'write_name': '_JY_P412C_FOU'},
+    'deoxidant_injector_frequency_d': {'read_name': 'P412D.FOU', 'write_name': '_JY_P412D_FOU'},
+    'outflow_orp': {'read_name': 'OT201.OTV', 'write_name': 'OT201'}
+}
+
+
+def decorator_logging(func):
+    def func2():
+        func()
+        print('[{}] read data from db with {}'.format(datetime.now(), func.__name__))
+        logging.info('[{}] read data from db with {}'.format(datetime.now(), func.__name__))
+    return func2
+
 
 class DataBasePandasClient(object):
     '''
@@ -26,8 +69,8 @@ class DataBasePandasClient(object):
         host = config_dict['host']  # '166.111.42.116'
         password = config_dict['password']  # '123456'
         # mysql + pymysql: // < username >: < password > @ < host > / < dbname > charset = utf8
-        self._db_path_2 = 'mssql+pymssql://{}:{}@{}/{}'.format(user, password, host, dbname)
-        self._engine = create_engine(self._db_path_2, echo=False)
+        self._db_path = 'mssql+pymssql://{}:{}@{}/{}'.format(user, password, host, dbname)
+        self._engine = create_engine(self._db_path, echo=False)
 
     def get_db_data_test(self):
         sql = 'select * from result1'
@@ -41,25 +84,19 @@ class DataBasePandasClient(object):
         df = pd.read_sql(sql, self._engine)
         return df
 
+    @decorator_logging
     def get_ph_monitor_data_to_df(self):
         # get 外供水 pH 计的检测值
-        logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
-        sql = "SET NOCOUNT ON DECLARE @StartDate DateTime DECLARE @EndDate DateTime " \
-              "SET @StartDate = DateAdd(mi,-5,GetDate()) SET @EndDate = GetDate() SET NOCOUNT OFF SELECT temp.TagName ,DateTime = convert(nvarchar, DateTime, 21) ,Value ,vValue ,MinRaw = ISNULL(Cast(AnalogTag.MinRaw as VarChar(20)),'N/A') ,MaxRaw = ISNULL(Cast(AnalogTag.MaxRaw as VarChar(20)),'N/A') ,MinEU = ISNULL(Cast(AnalogTag.MinEU as VarChar(20)),'N/A') ,MaxEU = ISNULL(Cast(AnalogTag.MaxEU as VarChar(20)),'N/A') ,Unit = ISNULL(Cast(EngineeringUnit.Unit as nVarChar(20)),'N/A') ,Quality ,QualityDetail = temp.QualityDetail ,QualityString ,wwResolution ,StartDateTime From (" \
-              "SELECT  *  FROM History WHERE History.TagName IN ('PHT301.PH_V') AND wwRetrievalMode = 'Cyclic' AND wwCycleCount = 100  " \
-              "AND wwQualityRule = 'Extended' AND wwVersion = 'Latest' AND DateTime >= @StartDate AND DateTime <= @EndDate) temp " \
-              "LEFT JOIN AnalogTag ON AnalogTag.TagName =temp.TagName LEFT JOIN EngineeringUnit " \
-              "ON AnalogTag.EUKey = EngineeringUnit.EUKey EFT JOIN QualityMap ON QualityMap.QualityDetail = temp.QualityDetail WHERE temp.StartDateTime >= @StartDate"
+        # logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
+        sql = SQL.format(device_dict['outflow_ph']['read_name'])
         df = pd.read_sql(sql, self._engine)
         return df
 
+    @decorator_logging
     def get_alkali_injector_data(self):
         # get 出水碱计量泵的值
-        logging.info('[{}] sql_pandas_cli: get alkali_injector_data from dataset'.format(datetime.now()))
-        sql = 'SELECT * FROM AnalogTag, EngineeringUnit, Tag ' \
-              'where Tag.TagName IN (xxx.ph) ' \
-              'AND Tag.TagName=AnalogTag.TagName ' \
-              'AND AnalogTaag.EUKey = EngineeringUnit.EUKey'
+        # logging.info('[{}] sql_pandas_cli: get alkali_injector_data from dataset'.format(datetime.now()))
+        sql = SQL.format(device_dict['alkali_injector_frequency_a']['read_name'])
         df = pd.read_sql(sql, self._engine)
         return df
 
@@ -138,9 +175,14 @@ class DataBasePandasClient(object):
 #     df = db_pandas_cli.get_db_data_by_table_name_to_df('result1')
 #     print(df)
 
+@decorator_logging
+def test_decorator():
+    a = 1
+    return a
+
 
 if __name__ == '__main__':
-    pass
+    test_decorator()
     # test()
 
 '''
