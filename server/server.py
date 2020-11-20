@@ -36,7 +36,8 @@ class Server(object):
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
         if flags.version == 0:
-            # df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
+            df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
+            a = 1
             # df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
             # df_pump = None
             result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
@@ -84,7 +85,8 @@ class Server(object):
                 'drugPred': resource_pred_list[0],
                 'deviceList': result_list}
         rows = {'id': [1],
-                'json': [json.dumps(row_json)],
+                # 'json': [json.dumps(row_json)],
+                'json': ['111'],
                 'state': [1],
                 'type': [optimize_type]
                 }
@@ -122,7 +124,6 @@ class Server(object):
         self.write_result(result_list_energy, [energy_saved, drug_saved], optimize_type=1)
         # 写入节药算法结果
         self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
-
 
 
 def test():

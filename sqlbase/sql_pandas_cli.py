@@ -44,12 +44,12 @@ class DataBasePandasClient(object):
     def get_ph_monitor_data_to_df(self):
         # get 外供水 pH 计的检测值
         logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
-        sql = "SELECT TagName = Tag.TagName, Description = Tag.Description, ' \
-              'MinRaw, MaxRaw, Unit, MinEU, MaxEU, StorageRate, StorageType ' \
-              'FROM AnalogTag, EngineeringUnit, Tag ' \
-              'WHERE Tag.TagName IN ('PHT301.PH_V') ' \
-              'AND Tag.TagName = AnalogTag.TagName A' \
-              'ND AnalogTag.EUKey = EngineeringUnit.EUKey"
+        sql = "SET NOCOUNT ON DECLARE @StartDate DateTime DECLARE @EndDate DateTime " \
+              "SET @StartDate = DateAdd(mi,-5,GetDate()) SET @EndDate = GetDate() SET NOCOUNT OFF SELECT temp.TagName ,DateTime = convert(nvarchar, DateTime, 21) ,Value ,vValue ,MinRaw = ISNULL(Cast(AnalogTag.MinRaw as VarChar(20)),'N/A') ,MaxRaw = ISNULL(Cast(AnalogTag.MaxRaw as VarChar(20)),'N/A') ,MinEU = ISNULL(Cast(AnalogTag.MinEU as VarChar(20)),'N/A') ,MaxEU = ISNULL(Cast(AnalogTag.MaxEU as VarChar(20)),'N/A') ,Unit = ISNULL(Cast(EngineeringUnit.Unit as nVarChar(20)),'N/A') ,Quality ,QualityDetail = temp.QualityDetail ,QualityString ,wwResolution ,StartDateTime From (" \
+              "SELECT  *  FROM History WHERE History.TagName IN ('PHT301.PH_V') AND wwRetrievalMode = 'Cyclic' AND wwCycleCount = 100  " \
+              "AND wwQualityRule = 'Extended' AND wwVersion = 'Latest' AND DateTime >= @StartDate AND DateTime <= @EndDate) temp " \
+              "LEFT JOIN AnalogTag ON AnalogTag.TagName =temp.TagName LEFT JOIN EngineeringUnit " \
+              "ON AnalogTag.EUKey = EngineeringUnit.EUKey EFT JOIN QualityMap ON QualityMap.QualityDetail = temp.QualityDetail WHERE temp.StartDateTime >= @StartDate"
         df = pd.read_sql(sql, self._engine)
         return df
 
