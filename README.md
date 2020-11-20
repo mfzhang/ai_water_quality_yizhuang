@@ -17,4 +17,13 @@
 ### 代码结构
 ![project](https://github.com/MAZiqing/ai_water_quality_yizhuang/blob/master/project_yizhuang.png)
 
-end
+sqlbase模块是对一些python中读写数据库的lib的封装
+
+model模块包含项目用到的机器学习模型
+
+trainer模块负责对模型的训练
+
+server模块负责模型上线后的运维
+
+monitor模块负责对推荐结果和实际运行效果的监控
+
