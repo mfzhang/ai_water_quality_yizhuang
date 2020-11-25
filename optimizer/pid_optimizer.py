@@ -9,30 +9,18 @@ class PidOptimizer(object):
     def __init__(self):
         pass
 
-    def optimize_ph_with_pid(self, df_ph, df_pump):
-        new_values = random.randint(1, 4)
-        drug_pred = random.randint(1, 5)/100
-        result_increase = {
-            'device': 'P410A',
-            'parameter': 'unknown',
-            'originalValue': 'unknown',
-            'newValue': '+' + str(new_values/10)
-        }
-        result_reduce = {
-            'device': 'P410A',
-            'parameter': 'unknown',
-            'originalValue': 'unknown',
-            'newValue': '-' + str(new_values / 10)
-        }
-        if df_ph:
-            if df_ph.max() > PhStandard.MAXLIMIT:
-                return result_reduce
-            elif df_ph.min() < PhStandard.MINLIMIT:
-                return result_increase
+    def optimize_ph_with_pid(self, df_ph=None, alkali_injector=None):
+        a, b = alkali_injector.get_current_value()
+        delta = 0.2
+        if df_ph is not None:
+            if df_ph['values'].max() > PhStandard.MAXLIMIT:
+                alkali_injector.set_new_value(a-delta, b-delta)
+            elif df_ph['values'].max() < PhStandard.MINLIMIT:
+                alkali_injector.set_new_value(a-delta, b-delta)
             else:
-                return None
-        else:
-            return random.choice([result_increase, result_reduce, None]), drug_pred
+                return None, None
+        result, drug_pred = alkali_injector.get_result_and_drug_predict()
+        return result, drug_pred
 
     def optimze_deoxidant_by_orp_with_pid(self, df_orp=None):
         new_values = random.randint(1, 4)

@@ -11,6 +11,7 @@ from sqlbase.sql_pandas_cli import DataBasePandasClient
 from src.pre_treat_pandas import PreTreatPandas
 from optimizer.pid_optimizer import PidOptimizer
 from src.constants import flags
+from components.component import AlkaliInjector
 
 # logging.basicConfig(filename='server.log', level=logging.DEBUG)
 
@@ -35,15 +36,16 @@ class Server(object):
 
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
+        alkali_injector = AlkaliInjector()
         if flags.version == 0:
             df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
-            a = 1
+            alkali_injector.update_current_value(self._db_pandas_cli)
             # df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
-            # df_pump = None
-            result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
+            result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=df_ph,
+                                                                         alkali_injector=alkali_injector)
         elif flags.version == 1:
             # print('server start with version 1')
-            result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=None, df_pump=None)
+            result, drug_pred = alkali_injector.generate_result_randomly()
         else:
             # print('server version false', flags.version)
             drug_pred = None

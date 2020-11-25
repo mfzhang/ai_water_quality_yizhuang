@@ -2,8 +2,8 @@
 # @Time    : 2020/9/16 0:25
 # @Author  : MA Ziqing
 # @FileName: sql_cli.py.py
-
-import os
+#
+# import os
 # import sys
 # from sqlalchemy import create_engine
 # from sqlalchemy.orm import sessionmaker

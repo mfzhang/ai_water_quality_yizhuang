@@ -31,8 +31,8 @@ device_dict = {
     'out_tank_level_a': {'read_name': 'LT301A.LV', 'write_name': 'LT301A'},
     'out_tank_level_b': {'read_name': 'LT301B.LV', 'write_name': 'LT301B'},
 
-    'alkali_injector_frequency_a': {'read_name': 'P411A.SC', 'write_name': 'SP_P411A_SC'},
-    'alkali_injector_frequency_b': {'read_name': 'P411B.SC', 'write_name': 'SP_P411B_SC'},
+    'alkali_injector_frequency_a': {'read_name': 'P411A.SC', 'write_name': 'SP_P411A_SC', 'chinese_name': '出水碱计量泵A频率'},
+    'alkali_injector_frequency_b': {'read_name': 'P411B.SC', 'write_name': 'SP_P411B_SC', 'chinese_name': '出水碱计量泵B频率'},
     'outflow_ph': {'read_name': 'PHT201.PH_V', 'write_name': 'CIT202'},
 
     'deoxidant_injector_frequency_c': {'read_name': 'P409B.SP_SC', 'write_name': '_JY_P412C_FOU'},
@@ -41,11 +41,17 @@ device_dict = {
 }
 
 
-def decorator_logging(func):
+def decorator_pandas_read_db(func):
     def func2():
-        func()
-        print('[{}] read data from db with {}'.format(datetime.now(), func.__name__))
-        logging.info('[{}] read data from db with {}'.format(datetime.now(), func.__name__))
+        try:
+            func()
+            print('[{}] successfully read data from db with {}'.format(datetime.now(), func.__name__))
+            logging.info('[{}] successfully read data from db with {}'.format(datetime.now(), func.__name__))
+        except Exception as e:
+            print('[{}] failed to read data from db with {}, reason :{}'.format(
+                datetime.now(), func.__name__, repr(e)))
+            logging.info('[{}] failed to read data from db with {}'.format(
+                datetime.now(), func.__name__, repr(e)))
     return func2
 
 
@@ -84,7 +90,7 @@ class DataBasePandasClient(object):
         df = pd.read_sql(sql, self._engine)
         return df
 
-    @decorator_logging
+    @decorator_pandas_read_db
     def get_ph_monitor_data_to_df(self):
         # get 外供水 pH 计的检测值
         # logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
@@ -92,23 +98,24 @@ class DataBasePandasClient(object):
         df = pd.read_sql(sql, self._engine)
         return df
 
-    @decorator_logging
+    @decorator_pandas_read_db
     def get_alkali_injector_data(self):
         # get 出水碱计量泵的值
         # logging.info('[{}] sql_pandas_cli: get alkali_injector_data from dataset'.format(datetime.now()))
-        sql = SQL.format(device_dict['alkali_injector_frequency_a']['read_name'])
-        df = pd.read_sql(sql, self._engine)
-        return df
+        sql_a = SQL.format(device_dict['alkali_injector_frequency_a']['read_name'])
+        sql_b = SQL.format(device_dict['alkali_injector_frequency_b']['read_name'])
+        df_a = pd.read_sql(sql_a, self._engine)
+        df_b = pd.read_sql(sql_b, self._engine)
+        return df_a, df_b
 
-    def get_outflow_quantity_data(self):
-        # get 出水总流量的值
-        logging.info('[{}] sql_pandas_cli: get outflow_quantity_data from dataset'.format(datetime.now()))
-        sql = 'SELECT * FROM AnalogTag, EngineeringUnit, Tag ' \
-              'where Tag.TagName IN (xxx.ph) ' \
-              'AND Tag.TagName=AnalogTag.TagName ' \
-              'AND AnalogTaag.EUKey = EngineeringUnit.EUKey'
-        df = pd.read_sql(sql, self._engine)
-        return df
+    @decorator_pandas_read_db
+    def get_outflow_level_data(self):
+        # get 出水箱水位
+        sql_a = SQL.format(device_dict['out_tank_level_a']['read_name'])
+        sql_b = SQL.format(device_dict['out_tank_level_a']['read_name'])
+        df_a = pd.read_sql(sql_a, self._engine)
+        df_b = pd.read_sql(sql_b, self._engine)
+        return df_a, df_b
 
     def get_runtime_mf_data(self):
         # get 微滤运行时间
@@ -175,7 +182,7 @@ class DataBasePandasClient(object):
 #     df = db_pandas_cli.get_db_data_by_table_name_to_df('result1')
 #     print(df)
 
-@decorator_logging
+@decorator_pandas_read_db
 def test_decorator():
     a = 1
     return a
