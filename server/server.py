@@ -70,62 +70,61 @@ class Server(object):
         print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, energy_pred
 
-    def write_result(self, result_list, resource_pred_list, optimize_type=1):
+    def write_result(self, result_list):
         logging.info('【{}】【{}】 write result 【{}】 into OutputDB'.format(
             datetime.now(), self._name_, result_list
             ))
-        if optimize_type == 1:
-            row_json = {
-                'time': str(datetime.now()),
-                'energyPred': resource_pred_list[0],
-                'drugPred': 0,
-                'deviceList': result_list}
-        else:
-            row_json = {
-                'time': str(datetime.now()),
-                'energyPred': 0,
-                'drugPred': resource_pred_list[0],
-                'deviceList': result_list}
-        rows = {'id': [1],
-                # 'json': [json.dumps(row_json)],
-                'json': ['111'],
-                'state': [1],
-                'type': [optimize_type]
-                }
+        # if optimize_type == 1:
+        #     row_json = {
+        #         'time': str(datetime.now()),
+        #         'energyPred': resource_pred_list[0],
+        #         'drugPred': 0,
+        #         'deviceList': result_list}
+        # else:
+        #     row_json = {
+        #         'time': str(datetime.now()),
+        #         'energyPred': 0,
+        #         'drugPred': resource_pred_list[0],
+        #         'deviceList': result_list}
+        # rows = {'id': [1],
+        #         # 'json': [json.dumps(row_json)],
+        #         'json': ['111'],
+        #         'state': [1],
+        #         'type': [optimize_type]
+        #         }
         # self._db_sql_cli = DataBaseSqlClient()
-        print('【{}】【{}】 type={}, 优化结果为：{}'.format(datetime.now(), self._name_, optimize_type, row_json))
+        # print('【{}】【{}】 type={}, 优化结果为：{}'.format(datetime.now(), self._name_, optimize_type, row_json))
         if flags.version == 0:
-
             print('【{}】【{}】 调度结果写入数据库'.format(datetime.now(), self._name_))
-            self._db_pandas_cli.write_one_row_into_output_result1(rows)
+            for row in result_list:
+                self._db_pandas_cli.write_one_row_into_output_result1(row)
         else:
             print('【{}】【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now(), self._name_))
 
     def run_real(self):
-        result_list_energy = []
-        result_list_drug = []
+        result_list = []
         energy_saved = 0
         drug_saved = 0
 
         json_res_ph, drug_pred = self.ph_optimizer_run()
         if json_res_ph:
-            result_list_drug += [json_res_ph]
+            result_list += [json_res_ph]
             drug_saved += drug_pred
 
         json_res_deoxidant, drug_pred = self.deoxidant_optimizer_run()
         if json_res_deoxidant:
-            result_list_drug += [json_res_deoxidant]
+            result_list += [json_res_deoxidant]
             drug_saved += drug_pred
 
         json_res_ro_number, drug_pred = self.ro_number_optimizer_run()
         if json_res_ro_number:
-            result_list_energy += [json_res_ro_number]
+            result_list += [json_res_ro_number]
             energy_saved += energy_saved
 
         # 写入节电算法结果
-        self.write_result(result_list_energy, [energy_saved, drug_saved], optimize_type=1)
+        self.write_result(result_list)
         # 写入节药算法结果
-        self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
+        # self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
 
 
 def test():

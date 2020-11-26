@@ -26,6 +26,8 @@ SQL = "SET NOCOUNT ON " \
       "WHERE temp.StartDateTime >= @StartDate"
 
 device_dict = {
+    'mf_inflow_a': {'read_name': 'MFA.JS_FT', 'write_name':	'FT101'},
+
     'mid_tank_level_a': {'read_name': 'LT201A.LV', 'write_name': 'LT201A'},
     'mid_tank_level_b': {'read_name': 'LT201B.LV', 'write_name': 'LT201B'},
     'out_tank_level_a': {'read_name': 'LT301A.LV', 'write_name': 'LT301A'},
@@ -37,7 +39,9 @@ device_dict = {
 
     'deoxidant_injector_frequency_c': {'read_name': 'P409B.SP_SC', 'write_name': '_JY_P412C_FOU'},
     'deoxidant_injector_frequency_d': {'read_name': 'P412D.FOU', 'write_name': '_JY_P412D_FOU'},
-    'outflow_orp': {'read_name': 'OT201.OTV', 'write_name': 'OT201'}
+    'outflow_orp': {'read_name': 'OT201.OTV', 'write_name': 'OT201'},
+
+    'electricity': {'read_name': 'POWER_EP.EP_V1223'}
 }
 
 
@@ -109,13 +113,36 @@ class DataBasePandasClient(object):
         return df_a, df_b
 
     @decorator_pandas_read_db
-    def get_outflow_level_data(self):
+    def get_outflow_tank_level_data(self):
         # get 出水箱水位
         sql_a = SQL.format(device_dict['out_tank_level_a']['read_name'])
-        sql_b = SQL.format(device_dict['out_tank_level_a']['read_name'])
+        sql_b = SQL.format(device_dict['out_tank_level_b']['read_name'])
         df_a = pd.read_sql(sql_a, self._engine)
         df_b = pd.read_sql(sql_b, self._engine)
         return df_a, df_b
+
+    @decorator_pandas_read_db
+    def get_mid_tank_level_data(self):
+        # get 中间水箱水位
+        sql_a = SQL.format(device_dict['mid_tank_level_a']['read_name'])
+        sql_b = SQL.format(device_dict['mid_tank_level_b']['read_name'])
+        df_a = pd.read_sql(sql_a, self._engine)
+        df_b = pd.read_sql(sql_b, self._engine)
+        return df_a, df_b
+
+    @decorator_pandas_read_db
+    def get_mf_inflow_data(self):
+        # get 微滤进水流量
+        sql = SQL.format(device_dict['mf_inflow_a']['read_name'])
+        df = pd.read_sql(sql, self._engine)
+        return df
+
+    @decorator_pandas_read_db
+    def get_electricity(self):
+        # get 总电量
+        sql = SQL.format(device_dict['electricity']['read_name'])
+        df = pd.read_sql(sql, self._engine)
+        return df
 
     def get_runtime_mf_data(self):
         # get 微滤运行时间
@@ -188,8 +215,20 @@ def test_decorator():
     return a
 
 
+def test_db_read_format():
+    config_dict = {"host": "84.20.85.106", "user": "sa", "password": "ggc@123",
+                   "dbname": "YZSC", "schedule_timestep_seconds": 1}
+    cli = DataBasePandasClient(config_dict)
+    cli.get_alkali_injector_data()
+    cli.get_ph_monitor_data_to_df()
+    cli.get_mid_tank_level_data()
+    cli.get_mf_inflow_data()
+    cli.get_electricity()
+
+
 if __name__ == '__main__':
-    test_decorator()
+    test_db_read_format()
+    # test_decorator()
     # test()
 
 '''
