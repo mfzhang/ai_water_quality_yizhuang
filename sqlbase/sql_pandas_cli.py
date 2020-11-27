@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 from datetime import datetime
+import pymssql
 from sqlalchemy import create_engine
 import pandas as pd
 
@@ -11,7 +12,7 @@ SQL = "SET NOCOUNT ON " \
       "SET @StartDate = DateAdd(mi,-5,GetDate()) " \
       "SET @EndDate = GetDate() " \
       "SET NOCOUNT OFF " \
-      "SELECT temp.TagName ,DateTime = convert(nvarchar, DateTime, 21) ,Value ,vValue ,MinRaw = ISNULL(Cast(AnalogTag.MinRaw as VarChar(20)),'N/A') ,MaxRaw = ISNULL(Cast(AnalogTag.MaxRaw as VarChar(20)),'N/A') ,MinEU = ISNULL(Cast(AnalogTag.MinEU as VarChar(20)),'N/A') ,MaxEU = ISNULL(Cast(AnalogTag.MaxEU as VarChar(20)),'N/A') ,Unit = ISNULL(Cast(EngineeringUnit.Unit as nVarChar(20)),'N/A') ,Quality ,QualityDetail = temp.QualityDetail ,QualityString ,wwResolution ,StartDateTime From (" \
+      "SELECT temp.TagName ,DateTime = convert(nvarchar, DateTime, 21) ,Value ,vValue, Unit = ISNULL(Cast(EngineeringUnit.Unit as nVarChar(20)),'N/A') ,Quality ,QualityDetail = temp.QualityDetail ,QualityString ,wwResolution ,StartDateTime From (" \
       "SELECT * " \
       "FROM History WHERE History.TagName IN ('{}') " \
       "AND wwRetrievalMode = 'Cyclic' " \
@@ -46,16 +47,18 @@ device_dict = {
 
 
 def decorator_pandas_read_db(func):
-    def func2():
+    def func2(*args):
         try:
-            func()
+            res = func(*args)
             print('[{}] successfully read data from db with {}'.format(datetime.now(), func.__name__))
             logging.info('[{}] successfully read data from db with {}'.format(datetime.now(), func.__name__))
+            return res
         except Exception as e:
             print('[{}] failed to read data from db with {}, reason :{}'.format(
                 datetime.now(), func.__name__, repr(e)))
             logging.info('[{}] failed to read data from db with {}'.format(
                 datetime.now(), func.__name__, repr(e)))
+            return 0
     return func2
 
 
@@ -80,7 +83,7 @@ class DataBasePandasClient(object):
         password = config_dict['password']  # '123456'
         # mysql + pymysql: // < username >: < password > @ < host > / < dbname > charset = utf8
         self._db_path = 'mssql+pymssql://{}:{}@{}/{}'.format(user, password, host, dbname)
-        self._engine = create_engine(self._db_path, echo=False)
+        self._engine = create_engine(self._db_path, echo=False, pool_recycle=300)
 
     def get_db_data_test(self):
         sql = 'select * from result1'
@@ -100,7 +103,7 @@ class DataBasePandasClient(object):
         # logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
         sql = SQL.format(device_dict['outflow_ph']['read_name'])
         df = pd.read_sql(sql, self._engine)
-        return df
+        return df['Value']
 
     @decorator_pandas_read_db
     def get_alkali_injector_data(self):
@@ -187,6 +190,11 @@ class DataBasePandasClient(object):
         df_res.to_sql('result1', con=self._engine, if_exists='append')
         a = 1
 
+    def get_last_turns_in_result1(self):
+        sql = 'select max(turns) from result1'
+        df_turns = pd.read_sql(sql, self._engine).values[0][0]
+        return df_turns
+
     def get_result1_last_two_row(self):
         sql = 'select * from result1 where id >= (select max(id)-1 from result1)'
         return pd.read_sql(sql, self._engine)
@@ -216,14 +224,15 @@ def test_decorator():
 
 
 def test_db_read_format():
-    config_dict = {"host": "84.20.85.106", "user": "sa", "password": "ggc@123",
-                   "dbname": "YZSC", "schedule_timestep_seconds": 1}
+    config_dict = {"host": "84.20.85.106", "user": "sa", "password": "monitor@333",
+                   "dbname": "Runtime", "schedule_timestep_seconds": 1}
     cli = DataBasePandasClient(config_dict)
-    cli.get_alkali_injector_data()
-    cli.get_ph_monitor_data_to_df()
-    cli.get_mid_tank_level_data()
-    cli.get_mf_inflow_data()
-    cli.get_electricity()
+    df1 = cli.get_alkali_injector_data()
+    df2 = cli.get_ph_monitor_data_to_df()
+    df3 = cli.get_mid_tank_level_data()
+    df4 = cli.get_mf_inflow_data()
+    df5 = cli.get_electricity()
+    a = 1
 
 
 if __name__ == '__main__':

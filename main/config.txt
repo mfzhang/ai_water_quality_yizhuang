@@ -1,1 +1,1 @@
-{"host": "84.20.85.106", "user": "sa", "password": "ggc@123", "dbname": "YZSC", "schedule_timestep_seconds": 1}
+{"host": "84.20.85.106", "user": "sa", "password": "monitor@333", "dbname": "Runtime", "schedule_timestep_seconds": 1}

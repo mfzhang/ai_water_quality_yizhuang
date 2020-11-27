@@ -22,8 +22,10 @@ class Server(object):
         if flags.version == 0:
             try:
                 self._db_pandas_cli = DataBasePandasClient(config_dict)
+                config_dict['dbname'] = 'YZSC'
+                self._db_pandas_cli_write = DataBasePandasClient(config_dict)
                 # self._db_sql_cli = DataBaseSqlClient(config_dict)
-                self._db_pandas_cli.get_db_data_test()
+                # self._db_pandas_cli.get_db_data_test()
                 print('【{}】【{}】数据库连接正常 Server 以版本{}启动'.format(datetime.now(), self._name_, flags.version))
             except Exception as e:
                 flags.version = 1
@@ -39,7 +41,7 @@ class Server(object):
         alkali_injector = AlkaliInjector()
         if flags.version == 0:
             df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
-            alkali_injector.update_current_value(self._db_pandas_cli)
+            # alkali_injector.update_current_value(self._db_pandas_cli)
             # df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
             result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=df_ph,
                                                                          alkali_injector=alkali_injector)
@@ -53,19 +55,17 @@ class Server(object):
         print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, drug_pred
 
-    # def qmf_optimizer_run(self):
-    #     # quantity_micro_filter 微滤进水流量优化模块：使进水与出水相当
-    #     df_outflow = self._db_pandas_cli.get_outflow_quantity_data()
-    #     df_outflow = self._pre_treat_pandas.mask_extreme_value(df_outflow)
-    #     result = self._pid_optimizer.optimizer_mf_by_outflow_with_pid(df_outflow)
-    #     return result
+    # def deoxidant_optimizer_run(self):
+    #     result, drug_pred = self._pid_optimizer.optimze_deoxidant_by_orp_with_pid()
+    #     print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
+    #     return result, drug_pred
+    #
+    # def ro_number_optimizer_run(self):
+    #     result, energy_pred = self._pid_optimizer.optimizer_mf_by_outflow_with_pid()
+    #     print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
+    #     return result, energy_pred
 
-    def deoxidant_optimizer_run(self):
-        result, drug_pred = self._pid_optimizer.optimze_deoxidant_by_orp_with_pid()
-        print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
-        return result, drug_pred
-
-    def ro_number_optimizer_run(self):
+    def mf_inflow_optimizer_run(self):
         result, energy_pred = self._pid_optimizer.optimizer_mf_by_outflow_with_pid()
         print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, energy_pred
@@ -74,30 +74,13 @@ class Server(object):
         logging.info('【{}】【{}】 write result 【{}】 into OutputDB'.format(
             datetime.now(), self._name_, result_list
             ))
-        # if optimize_type == 1:
-        #     row_json = {
-        #         'time': str(datetime.now()),
-        #         'energyPred': resource_pred_list[0],
-        #         'drugPred': 0,
-        #         'deviceList': result_list}
-        # else:
-        #     row_json = {
-        #         'time': str(datetime.now()),
-        #         'energyPred': 0,
-        #         'drugPred': resource_pred_list[0],
-        #         'deviceList': result_list}
-        # rows = {'id': [1],
-        #         # 'json': [json.dumps(row_json)],
-        #         'json': ['111'],
-        #         'state': [1],
-        #         'type': [optimize_type]
-        #         }
-        # self._db_sql_cli = DataBaseSqlClient()
-        # print('【{}】【{}】 type={}, 优化结果为：{}'.format(datetime.now(), self._name_, optimize_type, row_json))
+        turns = self._db_pandas_cli_write.get_last_turns_in_result1()
         if flags.version == 0:
             print('【{}】【{}】 调度结果写入数据库'.format(datetime.now(), self._name_))
             for row in result_list:
-                self._db_pandas_cli.write_one_row_into_output_result1(row)
+                row['time'] = datetime.now()
+                row['turns'] = turns + 1
+                self._db_pandas_cli_write.write_one_row_into_output_result1(row)
         else:
             print('【{}】【{}】 数据库无法连接，调度结果只做展示，无法写入数据库'.format(datetime.now(), self._name_))
 
@@ -108,21 +91,22 @@ class Server(object):
 
         json_res_ph, drug_pred = self.ph_optimizer_run()
         if json_res_ph:
-            result_list += [json_res_ph]
+            result_list += json_res_ph
             drug_saved += drug_pred
 
-        json_res_deoxidant, drug_pred = self.deoxidant_optimizer_run()
-        if json_res_deoxidant:
-            result_list += [json_res_deoxidant]
-            drug_saved += drug_pred
+        # json_res_deoxidant, drug_pred = self.deoxidant_optimizer_run()
+        # if json_res_deoxidant:
+        #     result_list += [json_res_deoxidant]
+        #     drug_saved += drug_pred
 
-        json_res_ro_number, drug_pred = self.ro_number_optimizer_run()
-        if json_res_ro_number:
-            result_list += [json_res_ro_number]
-            energy_saved += energy_saved
+        # json_res_ro_number, drug_pred = self.ro_number_optimizer_run()
+        # if json_res_ro_number:
+        #     result_list += [json_res_ro_number]
+        #     energy_saved += energy_saved
 
         # 写入节电算法结果
         self.write_result(result_list)
+        a = 1
         # 写入节药算法结果
         # self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
 

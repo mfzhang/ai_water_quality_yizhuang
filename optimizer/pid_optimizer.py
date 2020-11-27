@@ -11,14 +11,17 @@ class PidOptimizer(object):
 
     def optimize_ph_with_pid(self, df_ph=None, alkali_injector=None):
         a, b = alkali_injector.get_current_value()
+        average_ph = df_ph.mean()
         delta = 0.2
-        if df_ph is not None:
+        if 1 < average_ph < 13:
             if df_ph['values'].max() > PhStandard.MAXLIMIT:
                 alkali_injector.set_new_value(a-delta, b-delta)
             elif df_ph['values'].max() < PhStandard.MINLIMIT:
-                alkali_injector.set_new_value(a-delta, b-delta)
+                alkali_injector.set_new_value(a+delta, b+delta)
             else:
                 return None, None
+        else:
+            alkali_injector.set_new_value(a, b)
         result, drug_pred = alkali_injector.get_result_and_drug_predict()
         return result, drug_pred
 
