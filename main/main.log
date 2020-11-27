@@ -591,3 +591,8 @@ INFO:root:【2020-11-27 15:12:23.863260】【server】 write result 【[[{'id': -1, '
 INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-27 15:13:39)
 INFO:root:[2020-11-27 15:13:44.759949] successfully read data from db with get_ph_monitor_data_to_df
 INFO:root:【2020-11-27 15:13:44.760950】【server】 write result 【[{'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411A_SC', 'parameter': '出水碱计量泵A频率', 'originalValue': 10, 'newValue': -1, 'change': 0, 'state': 1, 'type': 2}, {'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411B_SC', 'parameter': '出水碱计量泵B频率', 'originalValue': 10, 'newValue': -1, 'change': 0, 'state': 1, 'type': 2}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-27 15:16:17)
+INFO:root:[2020-11-27 15:16:22.205558] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:【2020-11-27 15:16:22.206559】【server】 write result 【[{'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411A_SC', 'parameter': '出水碱计量泵A频率', 'originalValue': 10, 'newValue': -1, 'change': 0, 'state': 1, 'type': 2}, {'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411B_SC', 'parameter': '出水碱计量泵B频率', 'originalValue': 10, 'newValue': -1, 'change': 0, 'state': 1, 'type': 2}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-27 15:37:55)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-27 15:39:26)

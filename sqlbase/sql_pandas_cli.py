@@ -9,7 +9,7 @@ import pandas as pd
 SQL = "SET NOCOUNT ON " \
       "DECLARE @StartDate DateTime " \
       "DECLARE @EndDate DateTime " \
-      "SET @StartDate = DateAdd(mi,-5,GetDate()) " \
+      "SET @StartDate = DateAdd(mi,-{},GetDate()) " \
       "SET @EndDate = GetDate() " \
       "SET NOCOUNT OFF " \
       "SELECT temp.TagName ,DateTime = convert(nvarchar, DateTime, 21) ,Value ,vValue, Unit = ISNULL(Cast(EngineeringUnit.Unit as nVarChar(20)),'N/A') ,Quality ,QualityDetail = temp.QualityDetail ,QualityString ,wwResolution ,StartDateTime From (" \
@@ -101,7 +101,7 @@ class DataBasePandasClient(object):
     def get_ph_monitor_data_to_df(self):
         # get 外供水 pH 计的检测值
         # logging.info('[{}] sql_pandas_cli: get ph_monitor_data from dataset'.format(datetime.now()))
-        sql = SQL.format(device_dict['outflow_ph']['read_name'])
+        sql = SQL.format(120, device_dict['outflow_ph']['read_name'])
         df = pd.read_sql(sql, self._engine)
         return df['Value']
 
@@ -109,8 +109,8 @@ class DataBasePandasClient(object):
     def get_alkali_injector_data(self):
         # get 出水碱计量泵的值
         # logging.info('[{}] sql_pandas_cli: get alkali_injector_data from dataset'.format(datetime.now()))
-        sql_a = SQL.format(device_dict['alkali_injector_frequency_a']['read_name'])
-        sql_b = SQL.format(device_dict['alkali_injector_frequency_b']['read_name'])
+        sql_a = SQL.format(5, device_dict['alkali_injector_frequency_a']['read_name'])
+        sql_b = SQL.format(5, device_dict['alkali_injector_frequency_b']['read_name'])
         df_a = pd.read_sql(sql_a, self._engine)
         df_b = pd.read_sql(sql_b, self._engine)
         return df_a, df_b
@@ -118,8 +118,8 @@ class DataBasePandasClient(object):
     @decorator_pandas_read_db
     def get_outflow_tank_level_data(self):
         # get 出水箱水位
-        sql_a = SQL.format(device_dict['out_tank_level_a']['read_name'])
-        sql_b = SQL.format(device_dict['out_tank_level_b']['read_name'])
+        sql_a = SQL.format(30, device_dict['out_tank_level_a']['read_name'])
+        sql_b = SQL.format(30, device_dict['out_tank_level_b']['read_name'])
         df_a = pd.read_sql(sql_a, self._engine)
         df_b = pd.read_sql(sql_b, self._engine)
         return df_a, df_b
@@ -127,8 +127,8 @@ class DataBasePandasClient(object):
     @decorator_pandas_read_db
     def get_mid_tank_level_data(self):
         # get 中间水箱水位
-        sql_a = SQL.format(device_dict['mid_tank_level_a']['read_name'])
-        sql_b = SQL.format(device_dict['mid_tank_level_b']['read_name'])
+        sql_a = SQL.format(30, device_dict['mid_tank_level_a']['read_name'])
+        sql_b = SQL.format(30, device_dict['mid_tank_level_b']['read_name'])
         df_a = pd.read_sql(sql_a, self._engine)
         df_b = pd.read_sql(sql_b, self._engine)
         return df_a, df_b
@@ -136,16 +136,17 @@ class DataBasePandasClient(object):
     @decorator_pandas_read_db
     def get_mf_inflow_data(self):
         # get 微滤进水流量
-        sql = SQL.format(device_dict['mf_inflow_a']['read_name'])
+        sql = SQL.format(5, device_dict['mf_inflow_a']['read_name'])
         df = pd.read_sql(sql, self._engine)
         return df
 
     @decorator_pandas_read_db
-    def get_electricity(self):
+    def get_electricity_past_x_hour(self, hour):
         # get 总电量
-        sql = SQL.format(device_dict['electricity']['read_name'])
+        sql = SQL.format(int(hour*60), device_dict['electricity']['read_name'])
         df = pd.read_sql(sql, self._engine)
-        return df
+        res = df['Value'].values[-1] - df['Value'].values[0]
+        return res
 
     def get_runtime_mf_data(self):
         # get 微滤运行时间
@@ -226,12 +227,14 @@ def test_decorator():
 def test_db_read_format():
     config_dict = {"host": "84.20.85.106", "user": "sa", "password": "monitor@333",
                    "dbname": "Runtime", "schedule_timestep_seconds": 1}
+
     cli = DataBasePandasClient(config_dict)
+    cli.get_electricity_past_24_hour()
     df1 = cli.get_alkali_injector_data()
     df2 = cli.get_ph_monitor_data_to_df()
     df3 = cli.get_mid_tank_level_data()
     df4 = cli.get_mf_inflow_data()
-    df5 = cli.get_electricity()
+    # df5 = cli.get_electricity()
     a = 1
 
 
