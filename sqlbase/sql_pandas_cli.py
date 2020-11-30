@@ -28,6 +28,11 @@ SQL = "SET NOCOUNT ON " \
 
 device_dict = {
     'mf_inflow_a': {'read_name': 'MFA.JS_FT', 'write_name':	'FT101', 'chinese_name': '超滤进水泵A流量'},
+    'mf_inflow_b': {'read_name': 'MFB.JS_FT', 'write_name':	'FT103', 'chinese_name': '超滤进水泵B流量'},
+    'mf_inflow_c': {'read_name': 'MFC.JS_FT', 'write_name':	'FT105', 'chinese_name': '超滤进水泵C流量'},
+    'mf_inflow_d': {'read_name': 'MFD.JS_FT', 'write_name':	'FT107', 'chinese_name': '超滤进水泵D流量'},
+    'mf_inflow_e': {'read_name': 'MFE.JS_FT', 'write_name':	'FT109', 'chinese_name': '超滤进水泵E流量'},
+    'mf_inflow_f': {'read_name': 'MFF.JS_FT', 'write_name':	'FT111', 'chinese_name': '超滤进水泵F流量'},
 
     'mid_tank_level_a': {'read_name': 'LT201A.LV', 'write_name': 'LT201A'},
     'mid_tank_level_b': {'read_name': 'LT201B.LV', 'write_name': 'LT201B'},
@@ -38,8 +43,10 @@ device_dict = {
     'alkali_injector_frequency_b': {'read_name': 'P411B.SC', 'write_name': 'SP_P411B_SC', 'chinese_name': '出水碱计量泵B频率'},
     'outflow_ph': {'read_name': 'PHT201.PH_V', 'write_name': 'CIT202'},
 
-    'deoxidant_injector_frequency_c': {'read_name': 'P409B.SP_SC', 'write_name': '_JY_P412C_FOU'},
-    'deoxidant_injector_frequency_d': {'read_name': 'P412D.FOU', 'write_name': '_JY_P412D_FOU'},
+    'deoxidant_injector_frequency_c': {'read_name': 'P409B.SP_SC', 'write_name': '_JY_P412C_FOU',
+                                       'chinese_name': '还原剂计量泵C频率'},
+    'deoxidant_injector_frequency_d': {'read_name': 'P412D.FOU', 'write_name': '_JY_P412D_FOU',
+                                       'chinese_name': '还原剂计量泵D频率'},
     'outflow_orp': {'read_name': 'OT201.OTV', 'write_name': 'OT201'},
 
     'electricity': {'read_name': 'POWER_EP.EP_V1223'}
@@ -85,17 +92,15 @@ class DataBasePandasClient(object):
         self._db_path = 'mssql+pymssql://{}:{}@{}/{}'.format(user, password, host, dbname)
         self._engine = create_engine(self._db_path, echo=False, pool_recycle=300)
 
-    def get_db_data_test(self):
-        sql = 'select * from result1'
-        df = pd.read_sql(sql, self._engine)
+    # def get_db_data_test(self):
+    #     sql = 'select * from result1'
+    #     df = pd.read_sql(sql, self._engine)
 
-    def get_db_data_by_table_name_to_df(self, table_name):
-        # 测试
-        logging.info('[{}] sql_pandas_cli: get data from "{}"'.format(
-            datetime.now(), table_name))
-        sql = 'select * from {}'.format(table_name)
+    @decorator_pandas_read_db
+    def get_current_data_mean_of_1min_by_device_name(self, device):
+        sql = SQL.format(5, device)
         df = pd.read_sql(sql, self._engine)
-        return df
+        return df['Value'].mean()
 
     @decorator_pandas_read_db
     def get_ph_monitor_data_to_df(self):
@@ -225,11 +230,8 @@ def test_decorator():
 
 
 def test_db_read_format():
-    config_dict = {"host": "84.20.85.106", "user": "sa", "password": "monitor@333",
-                   "dbname": "Runtime", "schedule_timestep_seconds": 1}
 
     cli = DataBasePandasClient(config_dict)
-    cli.get_electricity_past_24_hour()
     df1 = cli.get_alkali_injector_data()
     df2 = cli.get_ph_monitor_data_to_df()
     df3 = cli.get_mid_tank_level_data()

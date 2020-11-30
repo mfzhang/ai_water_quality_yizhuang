@@ -717,3 +717,72 @@ INFO:root:[2020-11-30 09:57:06.637903] successfully read data from db with get_p
 INFO:root:[2020-11-30 09:57:06.723526] successfully read data from db with get_alkali_injector_data
 INFO:root:[2020-11-30 09:57:06.778567] successfully read data from db with get_mf_inflow_data
 INFO:root:【2020-11-30 09:57:06.779568】【server】 write result 【[{'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411A_SC', 'parameter': '出水碱计量泵A频率', 'originalValue': 6.0, 'newValue': 6.2, 'change': 0, 'state': 1, 'type': 2}, {'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411B_SC', 'parameter': '出水碱计量泵B频率', 'originalValue': 1.0, 'newValue': 1.2, 'change': 0, 'state': 1, 'type': 2}, {'id': -1, 'turns': -1, 'time': '', 'device': 'FT101', 'parameter': '超滤进水泵A流量', 'originalValue': 0.0, 'newValue': 0.0, 'change': 0, 'state': 1, 'type': 1}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 09:58:45)
+INFO:root:[2020-11-30 09:58:51.116658] successfully read data from db with get_electricity_past_x_hour
+INFO:root:[2020-11-30 09:58:51.178705] successfully read data from db with get_electricity_past_x_hour
+INFO:root:[2020-11-30 09:58:51.332820] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 09:58:51.415884] successfully read data from db with get_alkali_injector_data
+INFO:root:[2020-11-30 09:59:43.592494] successfully read data from db with get_mf_inflow_data
+INFO:root:【2020-11-30 09:59:43.593494】【server】 write result 【[{'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411A_SC', 'parameter': '出水碱计量泵A频率', 'originalValue': 6.0, 'newValue': 6.2, 'change': 0, 'state': 1, 'type': 2}, {'id': -1, 'turns': -1, 'time': '', 'device': 'SP_P411B_SC', 'parameter': '出水碱计量泵B频率', 'originalValue': 1.0, 'newValue': 1.2, 'change': 0, 'state': 1, 'type': 2}, {'id': -1, 'turns': -1, 'time': '', 'device': 'FT101', 'parameter': '超滤进水泵A流量', 'originalValue': 0.0, 'newValue': 0.0, 'change': 0, 'state': 1, 'type': 1}]】 into OutputDB
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:28:27)
+INFO:root:[2020-11-30 16:28:33.109764] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:28:33.151810] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:28:33.252918] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 16:28:33.295964] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:28:33.337271] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:31:22)
+INFO:root:[2020-11-30 16:31:27.197381] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:31:27.238757] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:31:27.308832] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 16:31:27.351878] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:31:27.392922] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:32:42)
+INFO:root:[2020-11-30 16:32:47.329328] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:32:47.370372] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:32:47.441448] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 16:32:47.484495] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:32:47.527540] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:41:58)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:43:37)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:45:17)
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:47:00)
+INFO:root:[2020-11-30 16:47:27.265926] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:47:27.307971] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:47:27.395574] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 16:47:27.440622] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:47:27.489451] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:48:05.965594] successfully read data from db with get_mf_inflow_data
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:49:59)
+INFO:root:[2020-11-30 16:50:25.688526] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 16:50:25.736577] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:25.779623] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:32.785334] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:32.828381] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:32.889446] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:32.936497] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:32.979544] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:50:33.036605] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:51:06.901190] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:51:06.930221] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 16:53:05)
+INFO:root:[2020-11-30 16:53:10.559343] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 16:53:10.603390] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:10.646165] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:18.368260] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:18.425373] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:18.470447] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:18.522478] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:18.565524] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:53:18.615577] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:54:55.136471] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 16:54:55.164501] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:schedule:Running job Every 5 seconds do run_all() (last run: [never], next run: 2020-11-30 17:03:48)
+INFO:root:[2020-11-30 17:03:53.250906] successfully read data from db with get_ph_monitor_data_to_df
+INFO:root:[2020-11-30 17:03:53.283941] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.316976] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.354016] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.397062] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.440108] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.476147] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.509182] successfully read data from db with get_current_data_mean_of_1min_by_device_name
+INFO:root:[2020-11-30 17:03:53.547223] successfully read data from db with get_current_data_mean_of_1min_by_device_name
