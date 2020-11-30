@@ -42,8 +42,8 @@ class AlkaliInjector(object):
 
     def update_current_value(self, cli):
         value_a, value_b = cli.get_alkali_injector_data()
-        self._return_result_a['originalValue'] = value_a
-        self._return_result_b['originalValue'] = value_b
+        self._return_result_a['originalValue'] = value_a['Value'].mean()
+        self._return_result_b['originalValue'] = value_b['Value'].mean()
         return 0
 
     def get_current_value(self):

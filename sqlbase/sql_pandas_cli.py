@@ -27,7 +27,7 @@ SQL = "SET NOCOUNT ON " \
       "WHERE temp.StartDateTime >= @StartDate"
 
 device_dict = {
-    'mf_inflow_a': {'read_name': 'MFA.JS_FT', 'write_name':	'FT101'},
+    'mf_inflow_a': {'read_name': 'MFA.JS_FT', 'write_name':	'FT101', 'chinese_name': '超滤进水泵A流量'},
 
     'mid_tank_level_a': {'read_name': 'LT201A.LV', 'write_name': 'LT201A'},
     'mid_tank_level_b': {'read_name': 'LT201B.LV', 'write_name': 'LT201B'},

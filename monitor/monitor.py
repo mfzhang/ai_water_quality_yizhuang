@@ -38,7 +38,7 @@ class Monitor(object):
     def run(self):
         # df = self._db_pandas_cli.get_result1_last_two_row()
         turns = self._db_pandas_cli_write.get_last_turns_in_result1()
-        state = self._db_pandas_cli_write.get
+        # state = self._db_pandas_cli_write.get
         # for index in df.index:
         #     # 节电算法
         #     if df['type'][index] == 1:
@@ -57,7 +57,8 @@ class Monitor(object):
         energy_past_24_hour = self._db_pandas_cli.get_electricity_past_x_hour(24)
         energy_past_48_hour = self._db_pandas_cli.get_electricity_past_x_hour(48)
         result2_dict = {'resultId': [0],
-                        'turns': [turns + 1],
+                        'turns': [turns],
+                        'time': [datetime.now()],
                         'energyOriginal': [energy_past_48_hour - energy_past_24_hour],
                         'energyPred': [96],
                         'energyNow': [energy_past_24_hour],
@@ -70,7 +71,7 @@ class Monitor(object):
                         'drugSavedNow': [5],
                         'state': [1],
                         'failReason': [0],
-                        'type': [1-2]
+                        'type': ['1-2']
                         }
         print('【{}】【{}】 type=1, 优化结果为：{}'.format(datetime.now(), self._name_, result2_dict))
         self._db_pandas_cli_write.write_one_row_into_output_result2(result2_dict)

@@ -21,6 +21,7 @@ class Server(object):
         self._name_ = 'server'
         if flags.version == 0:
             try:
+                config_dict['dbname'] = 'Runtime'
                 self._db_pandas_cli = DataBasePandasClient(config_dict)
                 config_dict['dbname'] = 'YZSC'
                 self._db_pandas_cli_write = DataBasePandasClient(config_dict)
@@ -41,7 +42,7 @@ class Server(object):
         alkali_injector = AlkaliInjector()
         if flags.version == 0:
             df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
-            # alkali_injector.update_current_value(self._db_pandas_cli)
+            alkali_injector.update_current_value(self._db_pandas_cli)
             # df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
             result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=df_ph,
                                                                          alkali_injector=alkali_injector)
@@ -66,7 +67,8 @@ class Server(object):
     #     return result, energy_pred
 
     def mf_inflow_optimizer_run(self):
-        result, energy_pred = self._pid_optimizer.optimizer_mf_by_outflow_with_pid()
+        df_inflow = self._db_pandas_cli.get_mf_inflow_data()
+        result, energy_pred = self._pid_optimizer.optimizer_mf_by_outflow_with_pid(df_inflow)
         print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, energy_pred
 
@@ -93,6 +95,9 @@ class Server(object):
         if json_res_ph:
             result_list += json_res_ph
             drug_saved += drug_pred
+
+        res_mf, energy_pred = self.mf_inflow_optimizer_run()
+        result_list += res_mf
 
         # json_res_deoxidant, drug_pred = self.deoxidant_optimizer_run()
         # if json_res_deoxidant:
