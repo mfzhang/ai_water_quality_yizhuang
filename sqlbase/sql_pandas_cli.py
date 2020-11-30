@@ -57,13 +57,13 @@ def decorator_pandas_read_db(func):
     def func2(*args):
         try:
             res = func(*args)
-            print('[{}] successfully read data from db with {}'.format(datetime.now(), func.__name__))
-            logging.info('[{}] successfully read data from db with {}'.format(datetime.now(), func.__name__))
+            print('【{}】【pandas client】 successfully read data from db with {}'.format(datetime.now(), func.__name__))
+            logging.info('【{}】【pandas client】 successfully read data from db with {}'.format(datetime.now(), func.__name__))
             return res
         except Exception as e:
-            print('[{}] failed to read data from db with {}, reason :{}'.format(
+            print('【{}】【pandas client】 failed to read data from db with {}, reason :{}'.format(
                 datetime.now(), func.__name__, repr(e)))
-            logging.info('[{}] failed to read data from db with {}'.format(
+            logging.info('【{}】【pandas client】 failed to read data from db with {}'.format(
                 datetime.now(), func.__name__, repr(e)))
             return 0
     return func2

@@ -5,53 +5,12 @@
 import random
 from sqlbase.sql_pandas_cli import device_dict, DataBasePandasClient
 from src.constants import PhStandard
-
-
-class ParameterBase(object):
-    def __init__(self, parameter_name):
-        self._paramter_name = parameter_name
-        self._cur_value = -1
-        self._new_value = -1
-        self._return_res = {'id': -1,
-                            'turns': -1,
-                            'time': '',
-                            'device': device_dict[parameter_name]['write_name'],
-                            'parameter': device_dict[parameter_name]['chinese_name'],
-                            'originalValue': -1,
-                            'newValue': -1,
-                            'change': 0,
-                            'state': 1,
-                            'type': -1}
-
-    def __repr__(self):
-        return '【{}】 cur_value: {}, new_value:{}'.format(self._paramter_name, self._cur_value, self._new_value)
-
-    def set_cur_value(self, cur_value):
-        self._cur_value = cur_value
-
-    def get_cur_value(self):
-        return self._cur_value
-
-    def update_cur_value(self, cli):
-        self._cur_value = cli.get_current_data_mean_of_1min_by_device_name(device_dict[self._paramter_name]['read_name'])
-
-    def set_new_value(self, new_value):
-        self._new_value = new_value
-
-    def get_new_value(self):
-        return self._new_value
-
-    def get_return_result(self):
-        self._return_res['originalValue'] = self.get_cur_value()
-        self._return_res['newValue'] = self.get_new_value()
-        return self._return_res
+from components.paramter import ParameterBase
 
 
 class DeviceBase(object):
     def __int__(self):
         self.device_list = []
-        print('father class')
-    # device_list = device_list
 
     def __iter__(self):
         return (i for i in self.device_list)
@@ -59,8 +18,8 @@ class DeviceBase(object):
     def __repr__(self):
         return str([i for i in self.device_list])
 
-    def add_device(self, device_list):
-        self.device_list = [ParameterBase(i) for i in device_list]
+    # def add_device(self, device_list):
+    #     self.device_list = [ParameterBase(i) for i in device_list]
 
     def set_new_value(self, *args):
         for i, j in zip(self.device_list, args):
@@ -101,7 +60,7 @@ class AlkaliInjector(DeviceBase):
                 self.set_new_value(a, b)
         else:
             self.set_new_value(a, b)
-        result = self.get_return_result_list()
+        # result = self.get_return_result_list()
 
 
 class DeoxidantInjector(DeviceBase):

@@ -43,30 +43,16 @@ class Server(object):
         else:
             print('【{}】【{}】 数据库连接无法建立，启动模拟版本，Server 以版本{}启动'.format(datetime.now(), self._name_, flags.version))
         self._pre_treat_pandas = PreTreatPandas()
-        # self._pid_optimizer = PidOptimizer()
 
     @decorator_server_run
     def ph_optimizer_run(self):
         # pH 优化模块：利用负反馈调节使出水 pH 在 6.5 附近变动
         alkali_injector = AlkaliInjector()
-        # alkali_injector.update_current_value(cli=self._db_pandas_cli)
-        # if flags.version == 0:
         df_ph = self._db_pandas_cli.get_ph_monitor_data_to_df()
         alkali_injector.update_current_value(cli=self._db_pandas_cli)
         alkali_injector.optimize_pid(df_ph)
         result = alkali_injector.get_return_result_list()
         drug_pred = 0
-        # df_ph = self._pre_treat_pandas.mask_extreme_value(df_ph)
-        # result, drug_pred = self._pid_optimizer.optimize_ph_with_pid(df_ph=df_ph,
-                                                                         # alkali_injector=alkali_injector)
-        # elif flags.version == 1:
-            # print('server start with version 1')
-            # result, drug_pred = None, None
-        # else:
-            # print('server version false', flags.version)
-            # drug_pred = None
-            # result = None
-        print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, drug_pred
 
     @decorator_server_run
@@ -76,7 +62,6 @@ class Server(object):
         deoxidant_injector.optimize_pid()
         result = deoxidant_injector.get_return_result_list()
         drug_pred = 0
-        # print('【{}】【{}】 schedule result: {} '.format(datetime.now(), self._name_, result))
         return result, drug_pred
 
     # def ro_number_optimizer_run(self):
@@ -118,20 +103,14 @@ class Server(object):
 
         res_deoxidant, drug_pred = self.deoxidant_optimizer_run()
         result_list += res_deoxidant
-        # if json_res_deoxidant:
-        #     result_list += [json_res_deoxidant]
-        #     drug_saved += drug_pred
 
         # json_res_ro_number, drug_pred = self.ro_number_optimizer_run()
         # if json_res_ro_number:
         #     result_list += [json_res_ro_number]
         #     energy_saved += energy_saved
 
-        # 写入节电算法结果
+        # 写入节电节药算法结果
         self.write_result(result_list)
-        a = 1
-        # 写入节药算法结果
-        # self.write_result(result_list_drug, [energy_saved, drug_saved], optimize_type=2)
 
 
 def test():
