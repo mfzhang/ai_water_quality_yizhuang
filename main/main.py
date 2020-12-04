@@ -49,12 +49,15 @@ def run_all():
 
 def run_real(argv):
     flags(argv)
+    print('flags parsed')
     schedule.every(flags.server_time_interval).seconds.do(run_all)
     while True:
         schedule.run_pending()
+        print('sleep 1: 10 seconds')
         time.sleep(10)
 
 
 if __name__ == '__main__':
     run_real(sys.argv)
+    print('sleep 2: 10 seconds')
     time.sleep(10)

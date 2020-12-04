@@ -50,11 +50,11 @@ class AlkaliInjector(DeviceBase):
     def optimize_pid(self, df_ph):
         a, b = self.get_current_value()
         average_ph = df_ph.mean()
-        delta = 0.1
+        delta = 0.0
         if 1 < average_ph < 13:
-            if df_ph.mean() > PhStandard.MAXLIMIT:
+            if average_ph > PhStandard.MAXLIMIT:
                 self.set_new_value(a - delta, b - delta)
-            elif df_ph.mean() < PhStandard.MINLIMIT:
+            elif average_ph < PhStandard.MINLIMIT:
                 self.set_new_value(a + delta, b + delta)
             else:
                 self.set_new_value(a, b)
