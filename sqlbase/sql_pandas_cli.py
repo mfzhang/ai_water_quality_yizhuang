@@ -200,8 +200,13 @@ class DataBasePandasClient(object):
 
     def get_last_turns_in_result1(self):
         sql = 'select max(turns) from result1'
-        df_turns = pd.read_sql(sql, self._engine).values[0][0]
-        return df_turns
+        float_turns = pd.read_sql(sql, self._engine).values[0][0]
+        return float_turns
+
+    def get_last_state_in_result1(self, turns):
+        sql = 'select max(state) from result1 where id = (select max(id) from result1 where turns={})'.format(turns)
+        float_state = pd.read_sql(sql, self._engine).values[0][0]
+        return float_state
 
     def get_result1_last_two_row(self):
         sql = 'select * from result1 where id >= (select max(id)-1 from result1)'

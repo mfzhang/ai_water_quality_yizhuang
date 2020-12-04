@@ -38,7 +38,7 @@ class Monitor(object):
     def run(self):
         # df = self._db_pandas_cli.get_result1_last_two_row()
         turns = self._db_pandas_cli_write.get_last_turns_in_result1()
-        # state = self._db_pandas_cli_write.get
+        state = self._db_pandas_cli_write.get_last_state_in_result1(turns)
         # for index in df.index:
         #     # 节电算法
         #     if df['type'][index] == 1:
@@ -59,21 +59,21 @@ class Monitor(object):
         result2_dict = {'resultId': [0],
                         'turns': [turns],
                         'time': [datetime.now()],
-                        'energyOriginal': [energy_past_48_hour - energy_past_24_hour],
-                        'energyPred': [96],
-                        'energyNow': [energy_past_24_hour],
-                        'energySavedPred': [4],
-                        'energySavedNow': [energy_past_48_hour - energy_past_24_hour * 2],
-                        'drugOriginal': [100],
-                        'drugPred': [96],
-                        'drugNow': [95],
-                        'drugSavedPred': [4],
-                        'drugSavedNow': [5],
-                        'state': [1],
+                        'energyOriginal': [energy_past_48_hour - energy_past_24_hour * 2],  # 节电=昨天耗电-今天耗电
+                        'energyPred': [-100],
+                        'energyNow': [-100],
+                        'energySavedPred': [energy_past_24_hour * 0.9],  # 预耗电
+                        'energySavedNow': [energy_past_24_hour],  # 实耗电
+                        'drugOriginal': [1],  # 节药
+                        'drugPred': [-100],
+                        'drugNow': [-100],
+                        'drugSavedPred': [96],  # 预耗药
+                        'drugSavedNow': [100],  # 实耗药
+                        'state': [state],
                         'failReason': [0],
                         'type': ['1-2']
                         }
-        print('【{}】【{}】 type=1, 优化结果为：{}'.format(datetime.now(), self._name_, result2_dict))
+        print('【{}】【{}】 智能算法评价结果为：{}'.format(datetime.now(), self._name_, result2_dict))
         self._db_pandas_cli_write.write_one_row_into_output_result2(result2_dict)
 
             # elif df['type'][index] == 2:
