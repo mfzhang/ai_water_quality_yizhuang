@@ -193,8 +193,8 @@ class DataBasePandasClient(object):
             id = df_id + 1
         else:
             id = 1
-        row['id'] = [id]
-        df_res = pd.DataFrame(row).set_index('id')
+        row['id'] = id
+        df_res = pd.DataFrame(row, index=[0]).set_index('id')
         df_res.to_sql('result1', con=self._engine, if_exists='append')
         a = 1
 

@@ -50,7 +50,7 @@ class AlkaliInjector(DeviceBase):
     def optimize_pid(self, df_ph):
         a, b = self.get_current_value()
         average_ph = df_ph.mean()
-        delta = 0.0
+        delta = 0.1
         if 1 < average_ph < 13:
             if average_ph > PhStandard.MAXLIMIT:
                 self.set_new_value(a - delta, b - delta)
@@ -68,12 +68,32 @@ class DeoxidantInjector(DeviceBase):
         device_list = ['deoxidant_injector_frequency_c', 'deoxidant_injector_frequency_d']
         self.device_list = tuple(ParameterBase(i) for i in device_list)
 
+    def optimize_pid(self):
+        value_tuple = self.get_current_value()
+        new_value_tuple = ()
+        for i in value_tuple:
+            if i > 1:
+                new_value_tuple += (i * (100 + random.randint(-5, 5)) / 100,)
+            else:
+                new_value_tuple += (i,)
+        self.set_new_value(*new_value_tuple)
+
 
 class MicroFiltrationInjector(DeviceBase):
     def __init__(self):
         name_list = ['a', 'b', 'c', 'd', 'e', 'f']
         device_list = ['mf_inflow_{}'.format(i) for i in name_list]
         self.device_list = tuple(ParameterBase(i) for i in device_list)
+
+    def optimize_pid(self):
+        value_tuple = self.get_current_value()
+        new_value_tuple = ()
+        for i in value_tuple:
+            if i > 1:
+                new_value_tuple += (i * (100 + random.randint(-5, 5)) / 100,)
+            else:
+                new_value_tuple += (i,)
+        self.set_new_value(*new_value_tuple)
 
 
 # class MicroFiltrationInflow(DeviceBase):
